@@ -220,7 +220,7 @@ public class Buttons {
     }
 
     public ItemStack playerHead(OfflinePlayer player, List<String> lore) {
-        ItemStack skull = null;
+        ItemStack skull;
 
         if (InventoryRollback.getVersion().equals(VersionName.v1_13_PLUS)) {
             skull = new ItemStack(Material.getMaterial("PLAYER_HEAD"));
@@ -338,7 +338,7 @@ public class Buttons {
         meta.setDisplayName(MessageData.restoreExperience);
 
         List<String> lore = new ArrayList<>();
-        lore.add(messages.restoreExperienceLevel((int) RestoreInventory.getLevel(xp) + ""));
+        lore.add(messages.restoreExperienceLevel(RestoreInventory.getLevel(xp) + ""));
         meta.setLore(lore);
 
         item.setItemMeta(meta);

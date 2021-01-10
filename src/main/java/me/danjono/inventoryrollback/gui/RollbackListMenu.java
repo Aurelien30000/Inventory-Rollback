@@ -7,6 +7,7 @@ import me.danjono.inventoryrollback.data.PlayerData;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -22,15 +23,23 @@ public class RollbackListMenu {
     private final LogType logType;
     private int pageNumber;
 
-    private final FileConfiguration playerData;
+    private FileConfiguration playerData;
 
     public RollbackListMenu(Player staff, OfflinePlayer player, LogType logType, int pageNumber) {
+        this(staff, player, logType, pageNumber, true);
+    }
+
+    public RollbackListMenu(Player staff, OfflinePlayer player, LogType logType, int pageNumber, boolean load) {
         this.staff = staff;
         this.playerUUID = player.getUniqueId();
         this.logType = logType;
         this.pageNumber = pageNumber;
 
-        this.playerData = new PlayerData(this.playerUUID, this.logType).getData();
+        this.playerData = new PlayerData(this.playerUUID, this.logType, load).getData();
+    }
+
+    public void loadData() {
+        this.playerData = new PlayerData(this.playerUUID, this.logType, true).getData();
     }
 
     public Inventory showBackups() {
@@ -41,7 +50,7 @@ public class RollbackListMenu {
 
         //Check how many backups there are in total
         int backups = 0;
-        List<Long> timeStamps = new ArrayList<>();
+        final List<Long> timeStamps = new ArrayList<>();
 
         for (String time : playerData.getConfigurationSection("data").getKeys(false)) {
             backups++;
@@ -51,10 +60,10 @@ public class RollbackListMenu {
         Collections.reverse(timeStamps);
 
         //How many rows are required
-        int spaceRequired = 36;
+        final int spaceRequired = 36;
 
         //How many pages are required
-        int pagesRequired = (int) Math.ceil(backups / (double) spaceRequired);
+        final int pagesRequired = (int) Math.ceil(backups / (double) spaceRequired);
 
         //Check if pageNumber supplied is greater then pagesRequired, if true set to last page
         if (pageNumber > pagesRequired) {
@@ -64,34 +73,40 @@ public class RollbackListMenu {
         }
 
         int position = 0;
+
+        final ConfigurationSection dataSection = playerData.getConfigurationSection("data");
+        if (dataSection == null) {
+            return null;
+        }
+
         for (int i = 0; i < spaceRequired; i++) {
             try {
-                Long time = timeStamps.get(((pageNumber - 1) * spaceRequired) + i);
-
+                final long time = timeStamps.get(((pageNumber - 1) * spaceRequired) + i);
+                final ConfigurationSection section = dataSection.getConfigurationSection(String.valueOf(time));
                 String deathReason = null;
                 try {
                     deathReason = messages.deathReason(playerData.getString("data." + time + ".deathReason"));
                 } catch (NullPointerException ignored) {
                 }
 
-                String displayName = messages.deathTime(getTime(time));
+                final String displayName = messages.deathTime(getTime(time));
 
-                List<String> lore = new ArrayList<>();
+                final List<String> lore = new ArrayList<>();
                 if (deathReason != null)
                     lore.add(deathReason);
 
-                String world = playerData.getString("data." + time + ".location.world");
-                String x = playerData.getInt("data." + time + ".location.x") + "";
-                String y = playerData.getInt("data." + time + ".location.y") + "";
-                String z = playerData.getInt("data." + time + ".location.z") + "";
-                String location = world + "," + x + "," + y + "," + z;
+                final String world = section.getString("location.world");
+                final String x = section.getString("location.x");
+                final String y = section.getString("location.y");
+                final String z = section.getString("location.z");
+                final String location = world + "," + x + "," + y + "," + z;
 
                 lore.add(messages.deathLocationWorld(world));
                 lore.add(messages.deathLocationX(x));
                 lore.add(messages.deathLocationY(y));
                 lore.add(messages.deathLocationZ(z));
 
-                ItemStack inventory = buttons.createInventoryButton(new ItemStack(Material.CHEST), playerUUID, logType, location, time, displayName, lore);
+                final ItemStack inventory = buttons.createInventoryButton(new ItemStack(Material.CHEST), playerUUID, logType, location, time, displayName, lore);
 
                 backupMenu.setItem(position, inventory);
 
@@ -101,16 +116,16 @@ public class RollbackListMenu {
             position++;
         }
 
-        List<String> lore = new ArrayList<>();
+        final List<String> lore = new ArrayList<>();
 
         if (pageNumber == 1) {
-            ItemStack mainMenu = buttons.backButton(MessageData.mainMenuButton, playerUUID, logType, 0, null);
+            final ItemStack mainMenu = buttons.backButton(MessageData.mainMenuButton, playerUUID, logType, 0, null);
             backupMenu.setItem(position + 1, mainMenu);
         }
 
         if (pageNumber > 1) {
             lore.add("Page " + (pageNumber - 1));
-            ItemStack previousPage = buttons.backButton(MessageData.previousPageButton, playerUUID, logType, pageNumber - 1, lore);
+            final ItemStack previousPage = buttons.backButton(MessageData.previousPageButton, playerUUID, logType, pageNumber - 1, lore);
 
             backupMenu.setItem(position + 1, previousPage);
             lore.clear();
@@ -118,7 +133,7 @@ public class RollbackListMenu {
 
         if (pageNumber < pagesRequired) {
             lore.add("Page " + (pageNumber + 1));
-            ItemStack nextPage = buttons.nextButton(MessageData.nextPageButton, playerUUID, logType, pageNumber + 1, lore);
+            final ItemStack nextPage = buttons.nextButton(MessageData.nextPageButton, playerUUID, logType, pageNumber + 1, lore);
 
             backupMenu.setItem(position + 7, nextPage);
             lore.clear();
@@ -127,8 +142,8 @@ public class RollbackListMenu {
         return backupMenu;
     }
 
-    private static String getTime(Long time) {
-        SimpleDateFormat sdf = new SimpleDateFormat(ConfigFile.timeFormat);
+    private static String getTime(long time) {
+        final SimpleDateFormat sdf = new SimpleDateFormat(ConfigFile.timeFormat);
         sdf.setTimeZone(TimeZone.getTimeZone(ConfigFile.timeZone));
         return sdf.format(new Date(time));
     }

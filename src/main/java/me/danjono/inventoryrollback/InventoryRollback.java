@@ -45,8 +45,9 @@ public class InventoryRollback extends JavaPlugin {
 
         startupTasks();
 
-        if (ConfigFile.bStatsEnabled)
+        if (ConfigFile.bStatsEnabled) {
             bStats();
+        }
 
         this.getCommand("inventoryrollback").setExecutor(new Commands());
 
@@ -128,7 +129,7 @@ public class InventoryRollback extends JavaPlugin {
 
     @SuppressWarnings("unused")
     private void bStats() {
-        Metrics metrics = new Metrics(this);
+        Metrics metrics = new Metrics(this, 1666);
     }
 
     public static void checkUpdate(boolean enabled) {
@@ -137,7 +138,7 @@ public class InventoryRollback extends JavaPlugin {
 
         logger.log(Level.INFO, "Checking for updates...");
 
-        final UpdateResult result = new UpdateChecker(instance, 48074, enabled).getResult();
+        final UpdateResult result = new UpdateChecker(instance, 48074, true).getResult();
 
         switch (result) {
             case FAIL_SPIGOT: {

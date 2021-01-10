@@ -63,6 +63,8 @@ public class ConfigFile {
     public static int maxSavesWorldChange;
     public static int maxSavesForce;
 
+    public static long maxMillisAsyncLoadTime;
+
     public static Material deathIcon;
     public static Material joinIcon;
     public static Material quitIcon;
@@ -77,9 +79,9 @@ public class ConfigFile {
     public static boolean bStatsEnabled;
 
     public void setVariables() {
-        String folder = (String) getDefaultValue("folderLocation", "DEFAULT");
+        final String folder = (String) getDefaultValue("folderLocation", "DEFAULT");
 
-        if (folder.equalsIgnoreCase("DEFAULT") || folder.isEmpty() || folder == null) {
+        if (folder.equalsIgnoreCase("DEFAULT") || folder.isEmpty()) {
             folderLocation = InventoryRollback.getInstance().getDataFolder();
         } else {
             try {
@@ -96,6 +98,8 @@ public class ConfigFile {
         maxSavesDeath = (int) getDefaultValue("maxSaves.death", 50);
         maxSavesWorldChange = (int) getDefaultValue("maxSaves.worldChange", 10);
         maxSavesForce = (int) getDefaultValue("maxSaves.force", 10);
+
+        maxMillisAsyncLoadTime = ((Number) getDefaultValue("joinMaxAsyncDelayMillis", 1000L)).longValue();
 
         try {
             deathIcon = Material.valueOf((String) getDefaultValue("icons.mainMenu.deathIcon.item", "BONE"));
