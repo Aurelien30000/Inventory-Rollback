@@ -245,9 +245,6 @@ public class ClickGUI extends Buttons implements Listener {
         Bukkit.getScheduler().runTaskAsynchronously(InventoryRollback.getInstance(), () -> future
                 .complete(new PlayerData(offlinePlayer, logType, true)));
 
-        final boolean emptyEnderchest =
-                offlinePlayer.hasPlayedBefore() && emptyEnderChest(offlinePlayer.getPlayer());
-
         future.thenAccept(data -> {
             final FileConfiguration playerData = data.getData();
 
@@ -294,10 +291,12 @@ public class ClickGUI extends Buttons implements Listener {
             else if (icon.getType() == getEnderChestIcon().getType()) {
                 if (offlinePlayer.isOnline()) {
                     final Player player = (Player) offlinePlayer;
-
-                    final ItemStack[] enderchest = restore.retrieveEnderChestInventory();
+                    final boolean emptyEnderchest =
+                            offlinePlayer.hasPlayedBefore() && emptyEnderChest(offlinePlayer.getPlayer());
 
                     if (emptyEnderchest) {
+                        final ItemStack[] enderchest = restore.retrieveEnderChestInventory();
+
                         Bukkit.getScheduler().runTask(InventoryRollback.getInstance(), () -> {
                             player.getEnderChest().setContents(enderchest);
 
@@ -350,13 +349,13 @@ public class ClickGUI extends Buttons implements Listener {
                     final Player player = (Player) offlinePlayer;
                     final int hunger = nbt.getInt("hunger");
                     final float saturation = nbt.getFloat("saturation");
+
                     Bukkit.getScheduler().runTask(InventoryRollback.getInstance(), () -> {
                         player.setFoodLevel(hunger);
                         player.setSaturation(saturation);
 
                         if (SoundData.hungerEnabled) {
-                            player
-                                    .playSound(player.getLocation(), SoundData.hunger, SoundData.hungerVolume, 1);
+                            player.playSound(player.getLocation(), SoundData.hunger, SoundData.hungerVolume, 1);
                         }
 
                         staff.sendMessage(MessageData.pluginName + messages.hungerRestored(player.getName()));
@@ -381,8 +380,8 @@ public class ClickGUI extends Buttons implements Listener {
                         RestoreInventory.setTotalExperience(player, xp);
 
                         if (SoundData.experienceEnabled) {
-                            player.playSound(player
-                                    .getLocation(), SoundData.experience, SoundData.experienceVolume, 1);
+                            player.playSound(
+                                    player.getLocation(), SoundData.experience, SoundData.experienceVolume, 1);
                         }
 
                         staff.sendMessage(MessageData.pluginName + messages

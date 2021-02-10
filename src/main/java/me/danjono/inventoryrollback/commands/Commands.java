@@ -66,7 +66,9 @@ public class Commands extends ConfigFile implements TabExecutor {
                                 Bukkit.getOfflinePlayer(args[1]);
 
                         final Inventory inventory = new MainMenu(staff, rollbackPlayer).getMenu();
-                        staff.openInventory(inventory);
+                        if (inventory != null) {
+                            staff.openInventory(inventory);
+                        }
                     } else {
                         sender.sendMessage(MessageData.pluginName + MessageData.error);
                     }
