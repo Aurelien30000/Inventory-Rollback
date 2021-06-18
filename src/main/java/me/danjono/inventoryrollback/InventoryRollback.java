@@ -127,8 +127,7 @@ public class InventoryRollback extends JavaPlugin {
                         || v.name().contains("v1_16")) {
                     version = VersionName.v1_13_v1_16;
                 }
-
-                version = VersionName.v1_17_PLUS;
+                //Else it is 1.17+
                 return true;
             }
         }
