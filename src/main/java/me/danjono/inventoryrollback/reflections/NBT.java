@@ -1,5 +1,6 @@
 package me.danjono.inventoryrollback.reflections;
 
+import me.danjono.inventoryrollback.InventoryRollback;
 import org.bukkit.inventory.ItemStack;
 
 import java.lang.reflect.Constructor;
@@ -16,9 +17,19 @@ public class NBT {
     static {
         try {
             // Init and cache the commonly used reflection accessor objects
-            Class<?> nmsItemStackClass = Packets.getNMSClass("ItemStack");
+            final Class<?> nmsItemStackClass;
+            final Class<?> nbtClass;
+
+            if (InventoryRollback.getVersion().greaterThanOrEqualTo(InventoryRollback.VersionName.v1_17_PLUS)) {
+                nmsItemStackClass = Packets.getNMSClass("world.item.ItemStack");
+                nbtClass = Packets.getNMSClass("nbt.NBTTagCompound");
+            } else {
+                nmsItemStackClass = Packets.getNMSClass("ItemStack");
+                nbtClass = Packets.getNMSClass("NBTTagCompound");
+            }
+
             Class<?> craftItemStackClass = Packets.getCraftBukkitClass("inventory.CraftItemStack");
-            Class<?> nbtClass = Packets.getNMSClass("NBTTagCompound");
+
             BUKKIT_AS_NMS_ITEM = craftItemStackClass.getMethod("asNMSCopy", ItemStack.class);
             NMS_AS_BUKKIT_ITEM = craftItemStackClass.getMethod("asBukkitCopy", nmsItemStackClass);
             NBT_TAG_CONSTRUCTOR = nbtClass.getConstructor();

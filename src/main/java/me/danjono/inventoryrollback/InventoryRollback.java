@@ -39,7 +39,7 @@ public class InventoryRollback extends JavaPlugin {
 
         if (!isCompatible()) {
             logger.log(Level.WARNING, ChatColor.RED + " ** WARNING... Plugin may not be compatible with this version of Minecraft. **");
-            logger.log(Level.WARNING, ChatColor.RED + " ** Tested versions: 1.8.8 to 1.16.4 **");
+            logger.log(Level.WARNING, ChatColor.RED + " ** Tested versions: 1.8.8 to 1.17 **");
             logger.log(Level.WARNING, ChatColor.RED + " ** Please fully test the plugin before using on your server as features may be broken. **");
         }
 
@@ -85,15 +85,22 @@ public class InventoryRollback extends JavaPlugin {
         V1_16_R1,
         V1_16_R2,
         V1_16_R3,
+        v1_17_R1;
     }
 
     public enum VersionName {
         v1_8,
         v1_9_v1_12,
-        v1_13_PLUS
+        v1_13_v1_16,
+        v1_17_PLUS;
+
+        public boolean greaterThanOrEqualTo(VersionName versionName) {
+            return ordinal() >= versionName.ordinal();
+        }
+
     }
 
-    private static VersionName version = VersionName.v1_13_PLUS;
+    private static VersionName version = VersionName.v1_17_PLUS;
 
     public static VersionName getVersion() {
         return version;
@@ -101,25 +108,27 @@ public class InventoryRollback extends JavaPlugin {
 
     private boolean isCompatible() {
         for (CompatibleVersions v : CompatibleVersions.values()) {
-
             if (v.name().equalsIgnoreCase(packageVersion)) {
-
                 //Check if 1.8
-                if (v.name().equalsIgnoreCase("v1_8_R1")
-                        || v.name().equalsIgnoreCase("v1_8_R2")
-                        || v.name().equalsIgnoreCase("v1_8_R3")) {
+                if (v.name().contains("v1_8")) {
                     version = VersionName.v1_8;
                 }
-                //Check if 1.9 - 1.12.2
-                else if (v.name().equalsIgnoreCase("v1_9_R1")
-                        || v.name().equalsIgnoreCase("v1_9_R2")
-                        || v.name().equalsIgnoreCase("v1_10_R1")
-                        || v.name().equalsIgnoreCase("v1_11_R1")
-                        || v.name().equalsIgnoreCase("v1_12_R1")) {
+                //Check if 1.9 - 1.12
+                else if (v.name().contains("v1_9")
+                        || v.name().contains("v1_10")
+                        || v.name().contains("v1_11")
+                        || v.name().contains("v1_12")) {
                     version = VersionName.v1_9_v1_12;
                 }
-                //Else it is 1.13+
+                //Check if 1.13 - 1.16
+                else if (v.name().contains("v1_13")
+                        || v.name().contains("v1_14")
+                        || v.name().contains("v1_15")
+                        || v.name().contains("v1_16")) {
+                    version = VersionName.v1_13_v1_16;
+                }
 
+                version = VersionName.v1_17_PLUS;
                 return true;
             }
         }
