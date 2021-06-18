@@ -109,22 +109,17 @@ public class InventoryRollback extends JavaPlugin {
     private boolean isCompatible() {
         for (CompatibleVersions v : CompatibleVersions.values()) {
             if (v.name().equalsIgnoreCase(packageVersion)) {
-                //Check if 1.8
-                if (v.name().contains("v1_8")) {
+                if (v.name().contains("V1_8")) {
                     version = VersionName.v1_8;
-                }
-                //Check if 1.9 - 1.12
-                else if (v.name().contains("v1_9")
-                        || v.name().contains("v1_10")
-                        || v.name().contains("v1_11")
-                        || v.name().contains("v1_12")) {
+                } else if (v.name().contains("V1_9")
+                        || v.name().contains("V1_10")
+                        || v.name().contains("V1_11")
+                        || v.name().contains("V1_12")) {
                     version = VersionName.v1_9_v1_12;
-                }
-                //Check if 1.13 - 1.16
-                else if (v.name().contains("v1_13")
-                        || v.name().contains("v1_14")
-                        || v.name().contains("v1_15")
-                        || v.name().contains("v1_16")) {
+                } else if (v.name().contains("V1_13")
+                        || v.name().contains("V1_14")
+                        || v.name().contains("V1_15")
+                        || v.name().contains("V1_16")) {
                     version = VersionName.v1_13_v1_16;
                 }
                 //Else it is 1.17+
