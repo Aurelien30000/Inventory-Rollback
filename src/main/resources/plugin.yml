@@ -1,10 +1,11 @@
 name: ${project.name}
 main: me.danjono.inventoryrollback.InventoryRollback
 version: ${project.version}
-description: ${project.description}
+api-version: 1.13
+softdepend: [ OpenInv ]
 author: ${project.organization.name}
 website: ${project.organization.url}
-api-version: 1.13
+description: ${project.description}
 commands:
   inventoryrollback:
     description: ${project.description}

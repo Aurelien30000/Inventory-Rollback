@@ -77,6 +77,7 @@ public class ConfigFile {
     public static boolean updateChecker;
 
     public static boolean bStatsEnabled;
+    public static boolean openInvEnabled;
 
     public void setVariables() {
         final String folder = (String) getDefaultValue("folderLocation", "DEFAULT");
@@ -137,6 +138,7 @@ public class ConfigFile {
         updateChecker = (boolean) getDefaultValue("updateChecker", true);
 
         bStatsEnabled = (boolean) getDefaultValue("bStats", true);
+        openInvEnabled = (boolean) getDefaultValue("OpenInv", true);
 
         new MessageData().setMessages();
         new SoundData().setSounds();

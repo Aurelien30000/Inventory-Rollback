@@ -6,6 +6,7 @@ import me.danjono.inventoryrollback.config.MessageData;
 import me.danjono.inventoryrollback.data.LogType;
 import me.danjono.inventoryrollback.inventory.RestoreInventory;
 import me.danjono.inventoryrollback.reflections.NBT;
+import me.danjono.inventoryrollback.util.MathUtils;
 import org.bukkit.*;
 import org.bukkit.block.banner.Pattern;
 import org.bukkit.block.banner.PatternType;
@@ -25,6 +26,7 @@ public class Buttons {
 
     private static final Material pageSelector = Material.getMaterial(InventoryRollback.getVersion().greaterThanOrEqualTo(VersionName.v1_13_v1_16) ? "WHITE_BANNER" : "BANNER");
     private static final Material enderPearl = Material.ENDER_PEARL;
+    private static final Material inventory = Material.CHEST;
     private static final Material enderChest = Material.ENDER_CHEST;
     private static final Material health = Material.getMaterial(InventoryRollback.getVersion().greaterThanOrEqualTo(VersionName.v1_13_v1_16) ? "MELON_SLICE" : "MELON");
     private static final Material hunger = Material.ROTTEN_FLESH;
@@ -36,6 +38,10 @@ public class Buttons {
 
     public static ItemStack getEnderPearlIcon() {
         return new ItemStack(enderPearl);
+    }
+
+    public static ItemStack getInventoryIcon() {
+        return new ItemStack(inventory);
     }
 
     public static ItemStack getEnderChestIcon() {
@@ -54,11 +60,17 @@ public class Buttons {
         return new ItemStack(experience);
     }
 
+    private final MessageData messages;
+
+    public Buttons() {
+        this.messages = new MessageData();
+    }
+
     public ItemStack nextButton(String displayName, UUID uuid, LogType logType, int page, List<String> lore) {
         ItemStack button = getPageSelectorIcon();
-        BannerMeta meta = (BannerMeta) button.getItemMeta();
+        final BannerMeta meta = (BannerMeta) button.getItemMeta();
 
-        List<Pattern> patterns = new ArrayList<>();
+        final List<Pattern> patterns = new ArrayList<>();
         patterns.add(new Pattern(DyeColor.BLACK, PatternType.BASE));
         patterns.add(new Pattern(DyeColor.WHITE, PatternType.RHOMBUS_MIDDLE));
         patterns.add(new Pattern(DyeColor.BLACK, PatternType.HALF_VERTICAL));
@@ -76,7 +88,7 @@ public class Buttons {
 
         button.setItemMeta(meta);
 
-        NBT nbt = new NBT(button);
+        final NBT nbt = new NBT(button);
 
         nbt.setString("uuid", uuid.toString());
         nbt.setString("logType", logType.name());
@@ -88,9 +100,9 @@ public class Buttons {
 
     public ItemStack backButton(String displayName, UUID uuid, LogType logType, int page, List<String> lore) {
         ItemStack button = getPageSelectorIcon();
-        BannerMeta meta = (BannerMeta) button.getItemMeta();
+        final BannerMeta meta = (BannerMeta) button.getItemMeta();
 
-        List<Pattern> patterns = new ArrayList<>();
+        final List<Pattern> patterns = new ArrayList<>();
         patterns.add(new Pattern(DyeColor.BLACK, PatternType.BASE));
         patterns.add(new Pattern(DyeColor.WHITE, PatternType.RHOMBUS_MIDDLE));
         patterns.add(new Pattern(DyeColor.BLACK, PatternType.HALF_VERTICAL_MIRROR));
@@ -110,7 +122,7 @@ public class Buttons {
 
         button.setItemMeta(meta);
 
-        NBT nbt = new NBT(button);
+        final NBT nbt = new NBT(button);
 
         nbt.setString("uuid", uuid.toString());
         nbt.setString("logType", logType.name());
@@ -122,9 +134,9 @@ public class Buttons {
 
     public ItemStack mainMenuBackButton(String displayName, UUID uuid) {
         ItemStack button = getPageSelectorIcon();
-        BannerMeta meta = (BannerMeta) button.getItemMeta();
+        final BannerMeta meta = (BannerMeta) button.getItemMeta();
 
-        List<Pattern> patterns = new ArrayList<>();
+        final List<Pattern> patterns = new ArrayList<>();
         patterns.add(new Pattern(DyeColor.BLACK, PatternType.BASE));
         patterns.add(new Pattern(DyeColor.WHITE, PatternType.RHOMBUS_MIDDLE));
         patterns.add(new Pattern(DyeColor.BLACK, PatternType.HALF_VERTICAL_MIRROR));
@@ -140,7 +152,7 @@ public class Buttons {
 
         button.setItemMeta(meta);
 
-        NBT nbt = new NBT(button);
+        final NBT nbt = new NBT(button);
 
         nbt.setString("uuid", uuid.toString());
         button = nbt.setItemData();
@@ -150,9 +162,9 @@ public class Buttons {
 
     public ItemStack inventoryMenuBackButton(String displayName, UUID uuid, LogType logType) {
         ItemStack button = getPageSelectorIcon();
-        BannerMeta meta = (BannerMeta) button.getItemMeta();
+        final BannerMeta meta = (BannerMeta) button.getItemMeta();
 
-        List<Pattern> patterns = new ArrayList<>();
+        final List<Pattern> patterns = new ArrayList<>();
         patterns.add(new Pattern(DyeColor.BLACK, PatternType.BASE));
         patterns.add(new Pattern(DyeColor.WHITE, PatternType.RHOMBUS_MIDDLE));
         patterns.add(new Pattern(DyeColor.BLACK, PatternType.HALF_VERTICAL_MIRROR));
@@ -168,7 +180,7 @@ public class Buttons {
 
         button.setItemMeta(meta);
 
-        NBT nbt = new NBT(button);
+        final NBT nbt = new NBT(button);
 
         nbt.setString("uuid", uuid.toString());
         nbt.setString("logType", logType.name());
@@ -178,7 +190,7 @@ public class Buttons {
     }
 
     public ItemStack createInventoryButton(ItemStack item, UUID uuid, LogType logType, String location, Long time, String displayName, List<String> lore) {
-        ItemMeta meta = item.getItemMeta();
+        final ItemMeta meta = item.getItemMeta();
         //meta.setDisplayName(name);
 
         if (lore != null) {
@@ -189,7 +201,7 @@ public class Buttons {
 
         item.setItemMeta(meta);
 
-        NBT nbt = new NBT(item);
+        final NBT nbt = new NBT(item);
 
         nbt.setString("uuid", uuid.toString());
         nbt.setString("logType", logType.name());
@@ -201,7 +213,7 @@ public class Buttons {
     }
 
     public ItemStack createLogTypeButton(ItemStack item, UUID uuid, String name, LogType logType, List<String> lore) {
-        ItemMeta meta = item.getItemMeta();
+        final ItemMeta meta = item.getItemMeta();
         meta.setDisplayName(name);
 
         if (lore != null) {
@@ -210,7 +222,7 @@ public class Buttons {
 
         item.setItemMeta(meta);
 
-        NBT nbt = new NBT(item);
+        final NBT nbt = new NBT(item);
 
         nbt.setString("uuid", uuid.toString());
         nbt.setString("logType", logType.name());
@@ -220,7 +232,7 @@ public class Buttons {
     }
 
     public ItemStack playerHead(OfflinePlayer player, List<String> lore) {
-        ItemStack skull;
+        final ItemStack skull;
 
         if (InventoryRollback.getVersion().greaterThanOrEqualTo(VersionName.v1_13_v1_16)) {
             skull = new ItemStack(Material.getMaterial("PLAYER_HEAD"));
@@ -228,10 +240,11 @@ public class Buttons {
             skull = new ItemStack(Material.getMaterial("SKULL_ITEM"), 1, (short) SkullType.PLAYER.ordinal());
         }
 
-        SkullMeta skullMeta = (SkullMeta) skull.getItemMeta();
+        final SkullMeta skullMeta = (SkullMeta) skull.getItemMeta();
 
         try {
-            Method method;
+            final Method method;
+
             if (InventoryRollback.getVersion().greaterThanOrEqualTo(VersionName.v1_13_v1_16)) {
                 method = skullMeta.getClass().getMethod("setOwningPlayer", OfflinePlayer.class);
                 method.setAccessible(true);
@@ -260,12 +273,12 @@ public class Buttons {
     public ItemStack enderPearlButton(UUID uuid, LogType logType, Long timestamp, String location) {
         ItemStack item = new ItemStack(getEnderPearlIcon());
 
-        ItemMeta meta = item.getItemMeta();
+        final ItemMeta meta = item.getItemMeta();
         meta.setDisplayName(MessageData.deathLocationMessage);
 
         item.setItemMeta(meta);
 
-        NBT nbt = new NBT(item);
+        final NBT nbt = new NBT(item);
 
         nbt.setString("uuid", uuid.toString());
         nbt.setString("logType", logType.name());
@@ -275,15 +288,15 @@ public class Buttons {
         return item;
     }
 
-    public ItemStack enderChestButton(UUID uuid, LogType logType, Long timestamp) {
-        ItemStack item = new ItemStack(getEnderChestIcon());
+    public ItemStack inventoryButton(UUID uuid, LogType logType, Long timestamp) {
+        ItemStack item = new ItemStack(getInventoryIcon());
 
-        ItemMeta meta = item.getItemMeta();
-        meta.setDisplayName(MessageData.restoreEnderChest);
+        final ItemMeta meta = item.getItemMeta();
+        meta.setDisplayName(MessageData.restoreInventory);
 
         item.setItemMeta(meta);
 
-        NBT nbt = new NBT(item);
+        final NBT nbt = new NBT(item);
 
         nbt.setString("uuid", uuid.toString());
         nbt.setString("logType", logType.name());
@@ -293,15 +306,37 @@ public class Buttons {
         return item;
     }
 
-    public ItemStack healthButton(UUID uuid, LogType logType, Double health) {
-        ItemStack item = new ItemStack(getHealthIcon());
+    public ItemStack enderChestButton(UUID uuid, LogType logType, Long timestamp) {
+        ItemStack item = new ItemStack(getEnderChestIcon());
 
-        ItemMeta meta = item.getItemMeta();
-        meta.setDisplayName(MessageData.restoreFood);
+        final ItemMeta meta = item.getItemMeta();
+        meta.setDisplayName(MessageData.restoreEnderChest);
 
         item.setItemMeta(meta);
 
-        NBT nbt = new NBT(item);
+        final NBT nbt = new NBT(item);
+
+        nbt.setString("uuid", uuid.toString());
+        nbt.setString("logType", logType.name());
+        nbt.setLong("timestamp", timestamp);
+        item = nbt.setItemData();
+
+        return item;
+    }
+
+    public ItemStack healthButton(UUID uuid, LogType logType, double health) {
+        ItemStack item = new ItemStack(getHealthIcon());
+
+        final ItemMeta meta = item.getItemMeta();
+        meta.setDisplayName(MessageData.restoreHealth);
+
+        final List<String> lore = new ArrayList<>();
+        lore.add(messages.restoreHealthLevel(MathUtils.round(health, 2) + ""));
+        meta.setLore(lore);
+
+        item.setItemMeta(meta);
+
+        final NBT nbt = new NBT(item);
 
         nbt.setString("uuid", uuid.toString());
         nbt.setString("logType", logType.name());
@@ -314,12 +349,16 @@ public class Buttons {
     public ItemStack hungerButton(UUID uuid, LogType logType, int hunger, float saturation) {
         ItemStack item = new ItemStack(getHungerIcon());
 
-        ItemMeta meta = item.getItemMeta();
+        final ItemMeta meta = item.getItemMeta();
         meta.setDisplayName(MessageData.restoreHunger);
+
+        final List<String> lore = new ArrayList<>();
+        lore.add(messages.restoreHungerLevel(hunger + ""));
+        meta.setLore(lore);
 
         item.setItemMeta(meta);
 
-        NBT nbt = new NBT(item);
+        final NBT nbt = new NBT(item);
 
         nbt.setString("uuid", uuid.toString());
         nbt.setString("logType", logType.name());
@@ -332,18 +371,17 @@ public class Buttons {
 
     public ItemStack experiencePotion(UUID uuid, LogType logType, float xp) {
         ItemStack item = new ItemStack(getExperienceIcon());
-        MessageData messages = new MessageData();
 
-        ItemMeta meta = item.getItemMeta();
+        final ItemMeta meta = item.getItemMeta();
         meta.setDisplayName(MessageData.restoreExperience);
 
-        List<String> lore = new ArrayList<>();
+        final List<String> lore = new ArrayList<>();
         lore.add(messages.restoreExperienceLevel(RestoreInventory.getLevel(xp) + ""));
         meta.setLore(lore);
 
         item.setItemMeta(meta);
 
-        NBT nbt = new NBT(item);
+        final NBT nbt = new NBT(item);
 
         nbt.setString("uuid", uuid.toString());
         nbt.setString("logType", logType.name());

@@ -1,5 +1,6 @@
 package me.danjono.inventoryrollback;
 
+import com.lishid.openinv.IOpenInv;
 import me.danjono.inventoryrollback.UpdateChecker.UpdateResult;
 import me.danjono.inventoryrollback.commands.Commands;
 import me.danjono.inventoryrollback.config.ConfigFile;
@@ -32,6 +33,12 @@ public class InventoryRollback extends JavaPlugin {
         return packageVersion;
     }
 
+    private IOpenInv openInvAPI;
+
+    public IOpenInv getOpenInvAPI() {
+        return openInvAPI;
+    }
+
     @Override
     public void onEnable() {
         instance = this;
@@ -41,6 +48,11 @@ public class InventoryRollback extends JavaPlugin {
             logger.log(Level.WARNING, ChatColor.RED + " ** WARNING... Plugin may not be compatible with this version of Minecraft. **");
             logger.log(Level.WARNING, ChatColor.RED + " ** Tested versions: 1.8.8 to 1.17 **");
             logger.log(Level.WARNING, ChatColor.RED + " ** Please fully test the plugin before using on your server as features may be broken. **");
+        }
+
+        if (ConfigFile.openInvEnabled && Bukkit.getPluginManager().isPluginEnabled("OpenInv")) {
+            openInvAPI = (IOpenInv) Bukkit.getPluginManager().getPlugin("OpenInv");
+            logger.log(Level.INFO, ChatColor.GREEN + "Enabled OpenInv integration.");
         }
 
         startupTasks();
@@ -85,7 +97,7 @@ public class InventoryRollback extends JavaPlugin {
         V1_16_R1,
         V1_16_R2,
         V1_16_R3,
-        v1_17_R1;
+        v1_17_R1
     }
 
     public enum VersionName {
@@ -132,7 +144,7 @@ public class InventoryRollback extends JavaPlugin {
 
     @SuppressWarnings("unused")
     private void bStats() {
-        Metrics metrics = new Metrics(this, 1666);
+        final Metrics metrics = new Metrics(this, 1666);
     }
 
     public static void checkUpdate(boolean enabled) {

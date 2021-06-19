@@ -31,6 +31,10 @@
             <id>papermc</id>
             <url>https://papermc.io/repo/repository/maven-public/</url>
         </repository>
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -54,8 +58,16 @@
         <dependency>
             <groupId>io.papermc</groupId>
             <artifactId>paperlib</artifactId>
-            <version>1.0.5</version>
+            <version>1.0.6</version>
             <scope>compile</scope>
+        </dependency>
+
+        <!-- OpenInv-->
+        <dependency>
+            <groupId>com.github.jikoo.OpenInv</groupId>
+            <artifactId>openinvapi</artifactId>
+            <version>4.1.5</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 

@@ -1,5 +1,6 @@
 package me.danjono.inventoryrollback.listeners;
 
+import com.lishid.openinv.IOpenInv;
 import io.papermc.lib.PaperLib;
 import me.danjono.inventoryrollback.InventoryRollback;
 import me.danjono.inventoryrollback.InventoryRollback.VersionName;
@@ -19,6 +20,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
@@ -123,17 +125,14 @@ public class ClickGUI extends Buttons implements Listener {
         }
     }
 
-    private static boolean emptyEnderChest(Player player) {
-        boolean empty = true;
-
-        for (ItemStack itemStack : player.getEnderChest()) {
+    private static boolean emptyInventory(Inventory inventory) {
+        for (ItemStack itemStack : inventory) {
             if (itemStack != null) {
-                empty = false;
-                break;
+                return false;
             }
         }
 
-        return empty;
+        return true;
     }
 
     private void rollbackMenu(InventoryClickEvent event) {
@@ -168,11 +167,7 @@ public class ClickGUI extends Buttons implements Listener {
                 final ItemStack[] armour = restore.retrieveArmour();
                 final ItemStack[] enderchest = restore.retrieveEnderChestInventory();
 
-                boolean hasEnderChest = false;
-
-                if (enderchest == null || enderchest.length > 0) {
-                    hasEnderChest = true;
-                }
+                final boolean hasEnderChest = enderchest == null || enderchest.length > 0;
 
                 // Deserialize stats
                 final float xp = restore.getXP();
@@ -287,28 +282,119 @@ public class ClickGUI extends Buttons implements Listener {
                 }); // We're async so #runTask will run on the next tick anyway
             }
 
-            //Clicked icon to restore backup players ender chest
-            else if (icon.getType() == getEnderChestIcon().getType()) {
-                if (offlinePlayer.isOnline()) {
-                    final Player player = (Player) offlinePlayer;
-                    final boolean emptyEnderchest =
-                            offlinePlayer.hasPlayedBefore() && emptyEnderChest(offlinePlayer.getPlayer());
+            //Clicked icon to restore backup players inventory
+            else if (icon.getType() == getInventoryIcon().getType()) {
+                final IOpenInv iOpenInv = InventoryRollback.getInstance().getOpenInvAPI();
 
-                    if (emptyEnderchest) {
-                        final ItemStack[] enderchest = restore.retrieveEnderChestInventory();
+                if (offlinePlayer.isOnline() || iOpenInv != null) {
+                    final Player player;
+                    final Inventory inventory;
+                    final boolean useOpenInv;
 
+                    if (offlinePlayer.isOnline()) {
+                        player = (Player) offlinePlayer;
+                        inventory = player.getInventory();
+                        useOpenInv = false;
+                    } else {
+                        if (iOpenInv != null) {
+                            player = iOpenInv.loadPlayer(offlinePlayer);
+                            if (player == null) {
+                                staff.sendMessage(MessageData.pluginName + messages.mainInventoryNotOnline(offlinePlayer.getName()));
+                                return;
+                            }
+
+                            iOpenInv.retainPlayer(player, InventoryRollback.getInstance());
+                            try {
+                                inventory = iOpenInv.getSpecialInventory(player, false /* player is offline */).getBukkitInventory();
+                                useOpenInv = true;
+                            } catch (InstantiationException e) {
+                                staff.sendMessage(MessageData.pluginName + messages.mainInventoryNotOnline(offlinePlayer.getName()));
+                                return;
+                            }
+                        } else {
+                            staff.sendMessage(MessageData.pluginName + messages.mainInventoryNotOnline(offlinePlayer.getName()));
+                            return;
+                        }
+                    }
+
+                    if (emptyInventory(inventory)) {
                         Bukkit.getScheduler().runTask(InventoryRollback.getInstance(), () -> {
-                            player.getEnderChest().setContents(enderchest);
+                            inventory.setContents(restore.retrieveMainInventory());
+                            if (inventory instanceof PlayerInventory) {
+                                ((PlayerInventory) inventory).setArmorContents(restore.retrieveArmour());
+                            }
 
-                            if (SoundData.enderChestEnabled) {
-                                player.playSound(player
-                                        .getLocation(), SoundData.enderChest, SoundData.enderChestVolume, 1);
+                            if (SoundData.mainInventoryEnabled) {
+                                player.playSound(player.getLocation(), SoundData.mainInventory, SoundData.mainInventoryVolume, 1);
                             }
                         });
                     } else {
-                        staff.sendMessage(
-                                MessageData.pluginName + messages.enderChestNotEmpty(player.getName()));
+                        staff.sendMessage(MessageData.pluginName + messages.mainInventoryNotEmpty(offlinePlayer.getName()));
                         return;
+                    }
+
+                    if (useOpenInv) {
+                        iOpenInv.releasePlayer(player, InventoryRollback.getInstance());
+                    }
+
+                    staff.sendMessage(MessageData.pluginName + messages.mainInventoryRestored(player.getName()));
+                    if (!staff.getUniqueId().equals(player.getUniqueId()))
+                        player.sendMessage(MessageData.pluginName + messages.mainInventoryRestoredPlayer(staff.getName()));
+                } else {
+                    staff.sendMessage(MessageData.pluginName + messages.mainInventoryNotOnline(offlinePlayer.getName()));
+                }
+            }
+
+            //Clicked icon to restore backup players ender chest
+            else if (icon.getType() == getEnderChestIcon().getType()) {
+                final IOpenInv iOpenInv = InventoryRollback.getInstance().getOpenInvAPI();
+
+                if (offlinePlayer.isOnline() || iOpenInv != null) {
+                    final Player player;
+                    final Inventory inventory;
+                    final boolean useOpenInv;
+
+                    if (offlinePlayer.isOnline()) {
+                        player = (Player) offlinePlayer;
+                        inventory = player.getEnderChest();
+                        useOpenInv = false;
+                    } else {
+                        if (iOpenInv != null) {
+                            player = iOpenInv.loadPlayer(offlinePlayer);
+                            if (player == null) {
+                                staff.sendMessage(MessageData.pluginName + messages.enderChestNotOnline(offlinePlayer.getName()));
+                                return;
+                            }
+
+                            iOpenInv.retainPlayer(player, InventoryRollback.getInstance());
+                            try {
+                                inventory = iOpenInv.getSpecialEnderChest(player, false /* player is offline */).getBukkitInventory();
+                                useOpenInv = true;
+                            } catch (InstantiationException e) {
+                                staff.sendMessage(MessageData.pluginName + messages.enderChestNotOnline(offlinePlayer.getName()));
+                                return;
+                            }
+                        } else {
+                            staff.sendMessage(MessageData.pluginName + messages.enderChestNotOnline(offlinePlayer.getName()));
+                            return;
+                        }
+                    }
+
+                    if (emptyInventory(inventory)) {
+                        Bukkit.getScheduler().runTask(InventoryRollback.getInstance(), () -> {
+                            inventory.setContents(restore.retrieveEnderChestInventory());
+
+                            if (SoundData.enderChestEnabled) {
+                                player.playSound(player.getLocation(), SoundData.enderChest, SoundData.enderChestVolume, 1);
+                            }
+                        });
+                    } else {
+                        staff.sendMessage(MessageData.pluginName + messages.enderChestNotEmpty(offlinePlayer.getName()));
+                        return;
+                    }
+
+                    if (useOpenInv) {
+                        iOpenInv.releasePlayer(player, InventoryRollback.getInstance());
                     }
 
                     staff.sendMessage(MessageData.pluginName + messages.enderChestRestored(player.getName()));
@@ -318,6 +404,24 @@ public class ClickGUI extends Buttons implements Listener {
                     staff.sendMessage(MessageData.pluginName + messages.enderChestNotOnline(offlinePlayer.getName()));
                 }
             }
+
+//            InventoryRollback.getInstance().getOpenInvAPI().ifPresent(iOpenInv -> {
+//                final Player player = iOpenInv.loadPlayer(offlinePlayer);
+//                if (player == null) {
+//                    staff.sendMessage(MessageData.pluginName + messages.enderChestNotKnown(offlinePlayer.getName()));
+//                    return;
+//                }
+//
+//                iOpenInv.retainPlayer(player, InventoryRollback.getInstance());
+//                try {
+//                    iOpenInv.getSpecialEnderChest(player, false /* player is offline */).getBukkitInventory().setContents();
+//                } catch (InstantiationException e) {
+//                    e.printStackTrace();
+//                }
+//
+//                player.saveData(); // ensure data is saved
+//                iOpenInv.releasePlayer(player, InventoryRollback.getInstance());
+//            })
 
             //Clicked icon to restore backup players health
             else if (icon.getType().equals(getHealthIcon().getType())) {

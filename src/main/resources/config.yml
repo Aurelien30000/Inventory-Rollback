@@ -23,6 +23,10 @@ sounds:
     enabled: true
     sound: 'ENTITY_ENDERMEN_TELEPORT'
     volume: 0.5
+  mainInventory:
+    enabled: true
+    sound: 'ENTITY_HORSE_ARMOR'
+    volume: 0.5
   enderChest:
     enabled: true
     sound: 'ENTITY_ENDER_DRAGON_FLAP'
@@ -69,6 +73,9 @@ updateChecker: true
 ## Allow bStats to collect anonymous server data. Please leave enabled
 ## as it allows me to see which versions people are running and where.
 bStats: true
+## Enable OpenInv integration.
+## This allows you to restore players' inventories even when they are offline.
+OpenInv: true
 
 ## You can change the text that is displayed in chat and the GUI here.
 messages:
@@ -84,6 +91,10 @@ messages:
   notOnline: '%NAME% is not currently online.'
   forceSaved: '%NAME%''s inventory has been force saved.'
   notForcedSaved: 'There was an issue with saving %NAME%''s inventory.'
+  mainInventoryNotEmpty: 'Cannot rollback %NAME%''s main inventory yet as they have items in it that would be lost. Get the player to remove the items first from their Main Inventory.'
+  mainInventoryRestored: '%NAME%''s main inventory has been restored.'
+  mainInventoryRestoredPlayer: 'Your main inventory has been restored by %NAME%.'
+  mainInventoryNotOnline: '%NAME% is not online to have their main inventory set.'
   enderChestNotEmpty: 'Cannot rollback %NAME%''s ender chest yet as they have items in it that would be lost. Get the player to remove the items first from their Ender Chest.'
   enderChestRestored: '%NAME%''s ender chest has been restored.'
   enderChestRestoredPlayer: 'Your ender chest has been restored by %NAME%.'
@@ -110,8 +121,11 @@ messages:
   nextPageButton: '&fNext Page'
   previousPageButton: '&fPrevious Page'
   backButton: '&fBack'
+  restoreInventory: '&6Restore Inventory'
   restoreEnderChest: '&dRestore Ender Chest'
-  restoreFood: '&aRestore Health'
+  restoreHealth: '&aRestore Health'
+  restoreHealthLevel: '&c%HEALTH% ❤'
   restoreHunger: '&cRestore Food'
+  restoreHungerLevel: '&d%HUNGER% ☕'
   restoreExperience: '&2Restore Player XP'
   restoreExperienceLevel: '&rLevel %XP%'

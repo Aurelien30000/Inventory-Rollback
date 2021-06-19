@@ -8,6 +8,7 @@ import me.danjono.inventoryrollback.inventory.SaveInventory;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerChangedWorldEvent;
@@ -20,8 +21,8 @@ import java.util.logging.Level;
 
 public class EventLogs implements Listener {
 
-    @EventHandler
-    private void playerJoin(PlayerJoinEvent e) {
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
+    private void onPlayerJoinEvent(PlayerJoinEvent e) {
         if (!ConfigFile.enabled) return;
 
         final Player player = e.getPlayer();
@@ -43,8 +44,8 @@ public class EventLogs implements Listener {
         }
     }
 
-    @EventHandler
-    private void playerQuit(PlayerQuitEvent e) {
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
+    private void onPlayerQuitEvent(PlayerQuitEvent e) {
         if (!ConfigFile.enabled) return;
 
         final Player player = e.getPlayer();
@@ -54,8 +55,8 @@ public class EventLogs implements Listener {
         }
     }
 
-    @EventHandler
-    private void playerDeath(EntityDamageEvent e) {
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
+    private void onEntityDamageEvent(EntityDamageEvent e) {
         if (!ConfigFile.enabled) return;
         if (!(e.getEntity() instanceof Player)) return;
 
@@ -66,8 +67,8 @@ public class EventLogs implements Listener {
         }
     }
 
-    @EventHandler
-    private void playerChangeWorld(PlayerChangedWorldEvent e) {
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
+    private void onPlayerChangedWorldEvent(PlayerChangedWorldEvent e) {
         if (!ConfigFile.enabled) return;
 
         final Player player = e.getPlayer();

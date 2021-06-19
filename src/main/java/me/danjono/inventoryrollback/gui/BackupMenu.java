@@ -14,7 +14,7 @@ public class BackupMenu {
     private final Player staff;
     private final UUID playerUUID;
     private final LogType logType;
-    private final Long timestamp;
+    private final long timestamp;
     private final ItemStack[] mainInventory;
     private final ItemStack[] armour;
     private final String location;
@@ -24,7 +24,7 @@ public class BackupMenu {
     private final float saturation;
     private final float xp;
 
-    public BackupMenu(Player staff, UUID playerUUID, LogType logType, Long timestamp, ItemStack[] main, ItemStack[] armour, String location, boolean enderchest, Double health, int hunger, float saturation, float xp) {
+    public BackupMenu(Player staff, UUID playerUUID, LogType logType, long timestamp, ItemStack[] main, ItemStack[] armour, String location, boolean enderchest, Double health, int hunger, float saturation, float xp) {
         this.staff = staff;
         this.playerUUID = playerUUID;
         this.logType = logType;
@@ -88,6 +88,10 @@ public class BackupMenu {
         //Add teleport back button
         if (location != null)
             inv.setItem(48, buttons.enderPearlButton(playerUUID, logType, timestamp, location));
+
+        //Add Inventory icon
+        if (enderChestAvailable)
+            inv.setItem(49, buttons.inventoryButton(playerUUID, logType, timestamp));
 
         //Add Enderchest icon
         if (enderChestAvailable)

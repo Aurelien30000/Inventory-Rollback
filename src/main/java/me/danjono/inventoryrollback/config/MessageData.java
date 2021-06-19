@@ -22,6 +22,10 @@ public class MessageData extends ConfigFile {
     private static String forceSaved;
     private static String notForcedSaved;
 
+    private static String mainInventoryNotEmpty;
+    private static String mainInventoryRestored;
+    private static String mainInventoryRestoredPlayer;
+    private static String mainInventoryNotOnline;
     private static String enderChestNotEmpty;
     private static String enderChestRestored;
     private static String enderChestRestoredPlayer;
@@ -57,9 +61,12 @@ public class MessageData extends ConfigFile {
     public static String previousPageButton;
     public static String backButton;
 
+    public static String restoreInventory;
     public static String restoreEnderChest;
-    public static String restoreFood;
+    public static String restoreHealth;
+    private static String restoreHealthLevel;
     public static String restoreHunger;
+    private static String restoreHungerLevel;
     public static String restoreExperience;
     private static String restoreExperienceLevel;
 
@@ -82,6 +89,10 @@ public class MessageData extends ConfigFile {
         forceSaved = convertColourCodes((String) getDefaultValue("messages.forceSaved", "%NAME%'s inventory has been force saved"));
         notForcedSaved = convertColourCodes((String) getDefaultValue("messages.notForcedSaved", "There was an issue with saving %NAME%'s inventory"));
 
+        mainInventoryNotEmpty = convertColourCodes((String) getDefaultValue("messages.mainInventoryNotEmpty", "Cannot rollback %NAME%'s main inventory yet as they have items in it that would be lost. Get the player to remove the items first from their Main Inventory."));
+        mainInventoryRestored = convertColourCodes((String) getDefaultValue("messages.mainInventoryRestored", "%NAME%'s main inventory has been restored."));
+        mainInventoryRestoredPlayer = convertColourCodes((String) getDefaultValue("messages.mainInventoryRestoredPlayer", "Your main inventory has been restored by %NAME%"));
+        mainInventoryNotOnline = convertColourCodes((String) getDefaultValue("messages.mainInventoryNotOnline", "%NAME% is not online to have their main inventory set."));
         enderChestNotEmpty = convertColourCodes((String) getDefaultValue("messages.enderChestNotEmpty", "Cannot rollback %NAME%'s ender chest yet as they have items in it that would be lost. Get the player to remove the items first from their Ender Chest."));
         enderChestRestored = convertColourCodes((String) getDefaultValue("messages.enderChestRestored", "%NAME%'s ender chest has been restored."));
         enderChestRestoredPlayer = convertColourCodes((String) getDefaultValue("messages.enderChestRestoredPlayer", "Your ender chest has been restored by %NAME%"));
@@ -117,9 +128,12 @@ public class MessageData extends ConfigFile {
         previousPageButton = convertColourCodes((String) getDefaultValue("messages.previousPageButton", "&fPrevious Page"));
         backButton = convertColourCodes((String) getDefaultValue("messages.backButton", "&fBack"));
 
+        restoreInventory = convertColourCodes((String) getDefaultValue("messages.restoreInventory", "&6Restore Inventory"));
         restoreEnderChest = convertColourCodes((String) getDefaultValue("messages.restoreEnderChest", "&dRestore Ender Chest"));
-        restoreFood = convertColourCodes((String) getDefaultValue("messages.restoreFood", "&aRestore Health"));
+        restoreHealth = convertColourCodes((String) getDefaultValue("messages.restoreHealth", "&aRestore Health"));
+        restoreHealthLevel = convertColourCodes((String) getDefaultValue("messages.restoreHealthLevel", "&c%HEALTH% ❤"));
         restoreHunger = convertColourCodes((String) getDefaultValue("messages.restoreHunger", "&cRestore Food"));
+        restoreHungerLevel = convertColourCodes((String) getDefaultValue("messages.restoreFoodLevel", "&d%HUNGER% ☕"));
         restoreExperience = convertColourCodes((String) getDefaultValue("messages.restoreExperience", "&2Restore Player XP"));
         restoreExperienceLevel = convertColourCodes((String) getDefaultValue("messages.restoreExperienceLevel", "&rLevel %XP%"));
     }
@@ -142,6 +156,22 @@ public class MessageData extends ConfigFile {
 
     public String notForcedSaved(String name) {
         return notForcedSaved.replaceAll("%NAME%", name);
+    }
+
+    public String mainInventoryNotEmpty(String name) {
+        return mainInventoryNotEmpty.replaceAll("%NAME%", name);
+    }
+
+    public String mainInventoryRestored(String name) {
+        return mainInventoryRestored.replaceAll("%NAME%", name);
+    }
+
+    public String mainInventoryRestoredPlayer(String name) {
+        return mainInventoryRestoredPlayer.replaceAll("%NAME%", name);
+    }
+
+    public String mainInventoryNotOnline(String name) {
+        return mainInventoryNotOnline.replaceAll("%NAME%", name);
     }
 
     public String enderChestNotEmpty(String name) {
@@ -228,7 +258,16 @@ public class MessageData extends ConfigFile {
         return deathTime.replaceAll("%TIME%", time);
     }
 
+    public String restoreHealthLevel(String health) {
+        return restoreHealthLevel.replaceAll("%HEALTH%", health);
+    }
+
+    public String restoreHungerLevel(String hunger) {
+        return restoreHungerLevel.replaceAll("%HUNGER%", hunger);
+    }
+
     public String restoreExperienceLevel(String xp) {
         return restoreExperienceLevel.replaceAll("%XP%", xp);
     }
+
 }

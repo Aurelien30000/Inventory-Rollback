@@ -10,6 +10,10 @@ public class SoundData extends ConfigFile {
     public static boolean enderPearlEnabled;
     public static float enderPearlVolume;
 
+    public static Sound mainInventory;
+    public static boolean mainInventoryEnabled;
+    public static float mainInventoryVolume;
+
     public static Sound enderChest;
     public static boolean enderChestEnabled;
     public static float enderChestVolume;
@@ -42,6 +46,20 @@ public class SoundData extends ConfigFile {
         }
         enderPearlEnabled = (boolean) getDefaultValue("sounds.enderPearl.enabled", true);
         enderPearlVolume = ((Double) getDefaultValue("sounds.enderPearl.volume", 0.5)).floatValue();
+
+        try {
+            mainInventory = Sound.valueOf((String) getDefaultValue("sounds.mainInventory.sound", "ENTITY_HORSE_ARMOR"));
+        } catch (IllegalArgumentException e) {
+            if (InventoryRollback.getVersion().equals(VersionName.v1_8)) {
+                mainInventory = Sound.valueOf("HORSE_ARMOR");
+            } else if (InventoryRollback.getVersion().equals(VersionName.v1_9_v1_12)) {
+                mainInventory = Sound.valueOf("ENTITY_HORSE_ARMOR");
+            } else {
+                mainInventory = Sound.valueOf("ENTITY_HORSE_ARMOR");
+            }
+        }
+        mainInventoryEnabled = (boolean) getDefaultValue("sounds.mainInventory.enabled", true);
+        mainInventoryVolume = ((Double) getDefaultValue("sounds.mainInventory.volume", 0.5)).floatValue();
 
         try {
             enderChest = Sound.valueOf((String) getDefaultValue("sounds.enderChest.sound", "ENTITY_ENDERDRAGON_FLAP"));
@@ -98,7 +116,6 @@ public class SoundData extends ConfigFile {
         }
         experienceEnabled = (boolean) getDefaultValue("sounds.xp.enabled", true);
         experienceVolume = ((Double) getDefaultValue("sounds.xp.volume", 0.5)).floatValue();
-
     }
 
 }

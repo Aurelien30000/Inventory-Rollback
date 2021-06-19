@@ -44,7 +44,7 @@ public class RestoreInventory {
             final int remainder = xp - xpForLevel;
             final int experienceNeeded = (2 * level) + 7;
             experience = (float) remainder / (float) experienceNeeded;
-            experience = round(experience, 2);
+            experience = MathUtils.round(experience, 2);
 
             //Levels 16 through 30
         } else if (xp >= 352 && xp < 1507) {
@@ -59,7 +59,7 @@ public class RestoreInventory {
             final int remainder = xp - xpForLevel;
             final int experienceNeeded = (5 * level) - 38;
             experience = (float) remainder / (float) experienceNeeded;
-            experience = round(experience, 2);
+            experience = MathUtils.round(experience, 2);
 
             //Level 31 and greater
         } else {
@@ -74,7 +74,7 @@ public class RestoreInventory {
             final int remainder = xp - xpForLevel;
             final int experienceNeeded = (9 * level) - 158;
             experience = (float) remainder / (float) experienceNeeded;
-            experience = round(experience, 2);
+            experience = MathUtils.round(experience, 2);
         }
         //Set Everything
         player.setLevel(level);
@@ -210,12 +210,6 @@ public class RestoreInventory {
 
     public double getHealth() {
         return playerData.getDouble("data." + timestamp + ".health");
-    }
-
-    private static float round(float d, int decimalPlace) {
-        BigDecimal bd = BigDecimal.valueOf(d);
-        bd = bd.setScale(decimalPlace, BigDecimal.ROUND_HALF_DOWN);
-        return bd.floatValue();
     }
 
 }
