@@ -405,24 +405,6 @@ public class ClickGUI extends Buttons implements Listener {
                 }
             }
 
-//            InventoryRollback.getInstance().getOpenInvAPI().ifPresent(iOpenInv -> {
-//                final Player player = iOpenInv.loadPlayer(offlinePlayer);
-//                if (player == null) {
-//                    staff.sendMessage(MessageData.pluginName + messages.enderChestNotKnown(offlinePlayer.getName()));
-//                    return;
-//                }
-//
-//                iOpenInv.retainPlayer(player, InventoryRollback.getInstance());
-//                try {
-//                    iOpenInv.getSpecialEnderChest(player, false /* player is offline */).getBukkitInventory().setContents();
-//                } catch (InstantiationException e) {
-//                    e.printStackTrace();
-//                }
-//
-//                player.saveData(); // ensure data is saved
-//                iOpenInv.releasePlayer(player, InventoryRollback.getInstance());
-//            })
-
             //Clicked icon to restore backup players health
             else if (icon.getType().equals(getHealthIcon().getType())) {
                 if (offlinePlayer.isOnline()) {
