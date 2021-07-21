@@ -282,7 +282,7 @@ public class ClickGUI extends Buttons implements Listener {
                 }); // We're async so #runTask will run on the next tick anyway
             }
 
-            //Clicked icon to restore backup players inventory
+            // Clicked icon to restore backup players inventory
             else if (icon.getType() == getInventoryIcon().getType()) {
                 final IOpenInv iOpenInv = InventoryRollback.getInstance().getOpenInvAPI();
 
@@ -345,7 +345,7 @@ public class ClickGUI extends Buttons implements Listener {
                 }
             }
 
-            //Clicked icon to restore backup players ender chest
+            // Clicked icon to restore backup players ender chest
             else if (icon.getType() == getEnderChestIcon().getType()) {
                 final IOpenInv iOpenInv = InventoryRollback.getInstance().getOpenInvAPI();
 

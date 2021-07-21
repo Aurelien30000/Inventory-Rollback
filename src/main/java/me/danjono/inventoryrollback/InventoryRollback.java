@@ -50,12 +50,12 @@ public class InventoryRollback extends JavaPlugin {
             logger.log(Level.WARNING, ChatColor.RED + " ** Please fully test the plugin before using on your server as features may be broken. **");
         }
 
+        startupTasks();
+
         if (ConfigFile.openInvEnabled && Bukkit.getPluginManager().isPluginEnabled("OpenInv")) {
             openInvAPI = (IOpenInv) Bukkit.getPluginManager().getPlugin("OpenInv");
             logger.log(Level.INFO, ChatColor.GREEN + "Enabled OpenInv integration.");
         }
-
-        startupTasks();
 
         if (ConfigFile.bStatsEnabled) {
             bStats();
