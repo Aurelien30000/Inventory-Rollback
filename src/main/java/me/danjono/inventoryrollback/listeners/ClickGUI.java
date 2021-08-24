@@ -335,6 +335,7 @@ public class ClickGUI extends Buttons implements Listener {
 
                     if (useOpenInv) {
                         iOpenInv.releasePlayer(player, InventoryRollback.getInstance());
+                        player.saveData();
                     }
 
                     staff.sendMessage(MessageData.pluginName + messages.mainInventoryRestored(player.getName()));

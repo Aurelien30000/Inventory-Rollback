@@ -22,7 +22,6 @@ public class Commands extends ConfigFile implements TabExecutor {
     private static final Map<String, String> subcommands = new HashMap<>();
 
     static {
-        subcommands.put("switch", "inventoryrollback.switch");
         subcommands.put("restore", "inventoryrollback.restore");
         subcommands.put("forcebackup", "inventoryrollback.forcebackup");
         subcommands.put("enable", "inventoryrollback.enable");

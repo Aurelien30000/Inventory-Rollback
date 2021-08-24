@@ -44,7 +44,7 @@ public class BackupMenu {
         Buttons buttons = new Buttons();
 
         int item = 0;
-        int position = 0;
+        int position = 27;
 
         //If the backup file is invalid it will return null, we want to catch it here
         if (mainInventory == null) {
@@ -54,32 +54,33 @@ public class BackupMenu {
         //Add items
         for (int i = 0; i < mainInventory.length - 5; i++) {
             final ItemStack itemStack = mainInventory[item];
-            if (itemStack != null) {
-                inv.setItem(position, itemStack);
-                position++;
-            }
-
+            inv.setItem(position, itemStack);
+            position++;
             item++;
+
+            if (item == 9) {
+                position = 0;
+            }
         }
 
         item = 36;
-        position = 44;
+        position = 39;
 
         //Add armour
         if (armour != null) {
             for (ItemStack itemStack : armour) {
                 inv.setItem(position, itemStack);
                 position--;
-            }
-        } else {
-            for (int i = 36; i < mainInventory.length; i++) {
-                if (mainInventory[item] != null) {
-                    inv.setItem(position, mainInventory[item]);
-                    position--;
-                }
-
                 item++;
             }
+        }
+
+        position = 40;
+
+        for (int i = item; i < mainInventory.length; i++) {
+            inv.setItem(position, mainInventory[item]);
+            position++;
+            item++;
         }
 
         //Add back button

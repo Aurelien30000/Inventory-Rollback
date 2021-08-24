@@ -12,7 +12,6 @@ import org.yaml.snakeyaml.external.biz.base64Coder.Base64Coder;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.util.logging.Level;
 
 public class RestoreInventory {
@@ -109,18 +108,25 @@ public class RestoreInventory {
     }
 
     public ItemStack[] retrieveArmour() {
-        ItemStack[] inv = null;
+        ItemStack[] inv = retrieveMainInventory();
+        if (inv == null || inv.length == 0) {
+            return null;
+        }
 
+        ItemStack[] armour = new ItemStack[4];
+        System.arraycopy(inv, 36, armour, 0, 4);
+
+        return armour;
+    }
+
+    public ItemStack[] retrieveMainInventory() {
         try {
-            inv = stacksFromBase64(playerData.getString("data." + timestamp + ".armour"));
-
-            if (inv.length == 0)
-                inv = null;
+            return stacksFromBase64(playerData.getString("data." + timestamp + ".inventory"));
         } catch (IllegalArgumentException e) {
             e.printStackTrace();
         }
 
-        return inv;
+        return null;
     }
 
     public ItemStack[] retrieveEnderChestInventory() {
@@ -158,17 +164,6 @@ public class RestoreInventory {
         }
     }
 
-    public ItemStack[] retrieveMainInventory() {
-
-        try {
-            return stacksFromBase64(playerData.getString("data." + timestamp + ".inventory"));
-        } catch (IllegalArgumentException e) {
-            e.printStackTrace();
-        }
-
-        return null;
-    }
-
     public int getHunger() {
         return playerData.getInt("data." + timestamp + ".hunger");
     }
@@ -179,6 +174,10 @@ public class RestoreInventory {
 
     public float getXP() {
         return (float) playerData.getDouble("data." + timestamp + ".xp");
+    }
+
+    public double getHealth() {
+        return playerData.getDouble("data." + timestamp + ".health");
     }
 
     private ItemStack[] stacksFromBase64(String data) {
@@ -206,10 +205,6 @@ public class RestoreInventory {
             ex.printStackTrace();
             return new ItemStack[0];
         }
-    }
-
-    public double getHealth() {
-        return playerData.getDouble("data." + timestamp + ".health");
     }
 
 }

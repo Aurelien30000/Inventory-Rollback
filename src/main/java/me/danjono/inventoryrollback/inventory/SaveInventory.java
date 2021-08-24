@@ -1,7 +1,6 @@
 package me.danjono.inventoryrollback.inventory;
 
 import me.danjono.inventoryrollback.InventoryRollback;
-import me.danjono.inventoryrollback.InventoryRollback.VersionName;
 import me.danjono.inventoryrollback.data.LogType;
 import me.danjono.inventoryrollback.data.PlayerData;
 import org.bukkit.Bukkit;
@@ -70,15 +69,9 @@ public class SaveInventory {
         final float saturation = player.getSaturation();
         final String world = player.getWorld().getName();
 
-        final String serializedArmour;
         final String serializedEnderchest = toBase64(enderChestInventory);
         final String serializedMainInventory = toBase64(mainInventory);
 
-        if (InventoryRollback.getVersion().equals(VersionName.v1_8)) {
-            serializedArmour = toBase64(mainInventory.getArmorContents());
-        } else {
-            serializedArmour = null;
-        }
         final CompletableFuture<Object> completableFuture = new CompletableFuture<>();
 
         final Runnable runnable = () -> {
@@ -123,7 +116,6 @@ public class SaveInventory {
 
             // Save data to the FileConfiguration
             timeSection.set("inventory", serializedMainInventory);
-            timeSection.set("armor", serializedArmour);
             timeSection.set("enderchest", serializedEnderchest);
             timeSection.set("xp", xp);
             timeSection.set("health", health);
@@ -136,8 +128,6 @@ public class SaveInventory {
             locSection.set("z", location.getBlockZ());
             timeSection.set("logType", logType.name());
             timeSection.set("version", InventoryRollback.getPackageVersion());
-            if (InventoryRollback.getVersion().equals(VersionName.v1_8) && serializedArmour != null)
-                timeSection.set("armor", serializedArmour);
 
             if (deathCause != null) {
                 timeSection.set("deathReason", deathCause.name());
