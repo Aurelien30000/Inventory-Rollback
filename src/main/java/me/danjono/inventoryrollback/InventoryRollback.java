@@ -16,7 +16,7 @@ import java.util.logging.Logger;
 
 public class InventoryRollback extends JavaPlugin {
 
-    public static final Logger logger = Logger.getLogger("Minecraft");
+    public static final Logger logger = Logger.getLogger("InventoryRollback");
     private static InventoryRollback instance;
 
     private static String packageVersion;
@@ -97,14 +97,16 @@ public class InventoryRollback extends JavaPlugin {
         V1_16_R1,
         V1_16_R2,
         V1_16_R3,
-        v1_17_R1
+        v1_17_R1,
+        v1_18_R1;
     }
 
     public enum VersionName {
         v1_8,
         v1_9_v1_12,
         v1_13_v1_16,
-        v1_17_PLUS;
+        v1_17,
+        v1_18_PLUS;
 
         public boolean greaterThanOrEqualTo(VersionName versionName) {
             return ordinal() >= versionName.ordinal();
@@ -112,7 +114,7 @@ public class InventoryRollback extends JavaPlugin {
 
     }
 
-    private static VersionName version = VersionName.v1_17_PLUS;
+    private static VersionName version = VersionName.v1_18_PLUS;
 
     public static VersionName getVersion() {
         return version;
@@ -133,8 +135,10 @@ public class InventoryRollback extends JavaPlugin {
                         || v.name().contains("V1_15")
                         || v.name().contains("V1_16")) {
                     version = VersionName.v1_13_v1_16;
+                } else if (v.name().contains("V1_17")) {
+                    version = VersionName.v1_17;
                 }
-                //Else it is 1.17+
+                // Else it is 1.18+.
                 return true;
             }
         }
@@ -153,7 +157,7 @@ public class InventoryRollback extends JavaPlugin {
 
         logger.log(Level.INFO, "Checking for updates...");
 
-        final UpdateResult result = new UpdateChecker(instance, 48074, true).getResult();
+        final UpdateResult result = new me.danjono.inventoryrollback.UpdateChecker(instance, 48074, true).getResult();
 
         switch (result) {
             case FAIL_SPIGOT: {
