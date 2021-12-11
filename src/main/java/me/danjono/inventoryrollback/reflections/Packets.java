@@ -5,7 +5,7 @@ import me.danjono.inventoryrollback.InventoryRollback;
 public class Packets {
 
     public static Class<?> getNMSClass(String name) throws ClassNotFoundException {
-        return InventoryRollback.getVersion().greaterThanOrEqualTo(InventoryRollback.VersionName.v1_18_PLUS)
+        return InventoryRollback.getVersion().greaterThanOrEqualTo(InventoryRollback.VersionName.v1_17)
                 ? Class.forName("net.minecraft." + name)
                 : Class.forName("net.minecraft.server." + InventoryRollback.getPackageVersion() + "." + name);
     }

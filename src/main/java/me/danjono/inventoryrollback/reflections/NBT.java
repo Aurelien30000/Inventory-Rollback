@@ -26,7 +26,7 @@ public class NBT {
             final Class<?> nmsItemStackClass;
             final Class<?> nbtClass;
 
-            if (InventoryRollback.getVersion().greaterThanOrEqualTo(InventoryRollback.VersionName.v1_18_PLUS)) {
+            if (InventoryRollback.getVersion().greaterThanOrEqualTo(InventoryRollback.VersionName.v1_17)) {
                 nmsItemStackClass = Packets.getNMSClass("world.item.ItemStack");
                 nbtClass = Packets.getNMSClass("nbt.NBTTagCompound");
             } else {
@@ -105,8 +105,7 @@ public class NBT {
     }
 
     public boolean hasUUID() {
-        String uuid = getString("uuid");
-
+        final String uuid = getString("uuid");
         return uuid != null && !uuid.isEmpty();
     }
 
