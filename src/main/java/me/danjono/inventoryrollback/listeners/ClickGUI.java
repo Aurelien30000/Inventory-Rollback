@@ -11,6 +11,7 @@ import me.danjono.inventoryrollback.data.PlayerData;
 import me.danjono.inventoryrollback.gui.*;
 import me.danjono.inventoryrollback.inventory.RestoreInventory;
 import me.danjono.inventoryrollback.reflections.NBT;
+import me.danjono.inventoryrollback.util.InventoryUtils;
 import org.bukkit.*;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -319,8 +320,10 @@ public class ClickGUI extends Buttons implements Listener {
 
                     if (emptyInventory(inventory)) {
                         Bukkit.getScheduler().runTask(InventoryRollback.getInstance(), () -> {
-                            inventory.setContents(restore.retrieveMainInventory());
-                            if (inventory instanceof PlayerInventory) {
+                            if (useOpenInv) {
+                                InventoryUtils.setSortedItems(inventory, restore.retrieveMainInventory(), restore.retrieveArmour());
+                            } else {
+                                inventory.setContents(restore.retrieveMainInventory());
                                 ((PlayerInventory) inventory).setArmorContents(restore.retrieveArmour());
                             }
 

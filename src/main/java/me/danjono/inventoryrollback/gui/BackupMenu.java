@@ -2,6 +2,7 @@ package me.danjono.inventoryrollback.gui;
 
 import me.danjono.inventoryrollback.config.MessageData;
 import me.danjono.inventoryrollback.data.LogType;
+import me.danjono.inventoryrollback.util.InventoryUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -43,45 +44,13 @@ public class BackupMenu {
         Inventory inv = Bukkit.createInventory(staff, 54, InventoryName.BACKUP.getName());
         Buttons buttons = new Buttons();
 
-        int item = 0;
-        int position = 27;
-
         //If the backup file is invalid it will return null, we want to catch it here
         if (mainInventory == null) {
             staff.sendMessage(MessageData.pluginName + MessageData.errorInventory);
             return null;
         }
-        //Add items
-        for (int i = 0; i < mainInventory.length - 5; i++) {
-            final ItemStack itemStack = mainInventory[item];
-            inv.setItem(position, itemStack);
-            position++;
-            item++;
 
-            if (item == 9) {
-                position = 0;
-            }
-        }
-
-        item = 36;
-        position = 39;
-
-        //Add armour
-        if (armour != null) {
-            for (ItemStack itemStack : armour) {
-                inv.setItem(position, itemStack);
-                position--;
-                item++;
-            }
-        }
-
-        position = 40;
-
-        for (int i = item; i < mainInventory.length; i++) {
-            inv.setItem(position, mainInventory[item]);
-            position++;
-            item++;
-        }
+        InventoryUtils.setSortedItems(inv, mainInventory, armour);
 
         //Add back button
         inv.setItem(46, buttons.inventoryMenuBackButton(MessageData.backButton, playerUUID, logType));

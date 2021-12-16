@@ -69,8 +69,8 @@ public class SaveInventory {
         final float saturation = player.getSaturation();
         final String world = player.getWorld().getName();
 
-        final String serializedEnderchest = toBase64(enderChestInventory);
         final String serializedMainInventory = toBase64(mainInventory);
+        final String serializedEnderchest = toBase64(enderChestInventory);
 
         final CompletableFuture<Object> completableFuture = new CompletableFuture<>();
 
