@@ -55,7 +55,7 @@ public class Commands extends ConfigFile implements TabExecutor {
         }
         FileConfiguration config = data.getData();
         List<Long> saves = config.getConfigurationSection("data").getKeys(false).stream()
-                .map(Long::valueOf).sorted().collect(Collectors.toList());
+                .map(Long::valueOf).sorted(Comparator.reverseOrder()).collect(Collectors.toList());
         if (saves.size() < index)
             return null;
         long key = saves.get(index - 1);
@@ -102,7 +102,7 @@ public class Commands extends ConfigFile implements TabExecutor {
                 }
                 FileConfiguration config = data.getData();
                 List<Long> saves = config.getConfigurationSection("data").getKeys(false).stream()
-                        .map(Long::valueOf).sorted().collect(Collectors.toList());
+                        .map(Long::valueOf).sorted(Comparator.reverseOrder()).collect(Collectors.toList());
                 int index = 1;
                 for (Long key : saves) {
                     ConfigurationSection save = config.getConfigurationSection("data." + key);
