@@ -142,7 +142,7 @@ public class MessageData extends ConfigFile {
         return ChatColor.translateAlternateColorCodes('&', text);
     }
 
-    public String noBackup(String name) {
+    public static String noBackup(String name) {
         return noBackup.replaceAll("%NAME%", name);
     }
 
@@ -250,11 +250,11 @@ public class MessageData extends ConfigFile {
         return deathLocationInvalidWorld.replaceAll("%WORLD%", world);
     }
 
-    public String deathReason(String reason) {
+    public static String deathReason(String reason) {
         return deathReason.replaceAll("%REASON%", reason);
     }
 
-    public String deathTime(String time) {
+    public static String deathTime(String time) {
         return deathTime.replaceAll("%TIME%", time);
     }
 

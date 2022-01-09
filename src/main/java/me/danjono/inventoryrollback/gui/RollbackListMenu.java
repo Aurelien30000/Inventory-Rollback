@@ -142,7 +142,7 @@ public class RollbackListMenu {
         return backupMenu;
     }
 
-    private static String getTime(long time) {
+    public static String getTime(long time) {
         final SimpleDateFormat sdf = new SimpleDateFormat(ConfigFile.timeFormat);
         sdf.setTimeZone(TimeZone.getTimeZone(ConfigFile.timeZone));
         return sdf.format(new Date(time));
