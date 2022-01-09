@@ -43,4 +43,13 @@ public class InventoryUtils {
 
     }
 
+    public static boolean isEmpty(Inventory inventory) {
+        for (ItemStack itemStack : inventory) {
+            if (itemStack != null) {
+                return false;
+            }
+        }
+        return true;
+    }
+
 }
