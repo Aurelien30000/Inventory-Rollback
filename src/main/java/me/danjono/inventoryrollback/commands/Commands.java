@@ -372,7 +372,7 @@ public class Commands extends ConfigFile implements TabExecutor {
                             .collect(Collectors.toList());
                 }
                 break;
-                // case 4 is backup index
+            // case 4 is backup index
             case 5:
                 arg0 = args[0];
                 if (arg0.equalsIgnoreCase("restore")) {

@@ -1,6 +1,5 @@
 package me.danjono.inventoryrollback.listeners;
 
-import com.lishid.openinv.IOpenInv;
 import io.papermc.lib.PaperLib;
 import me.danjono.inventoryrollback.InventoryRollback;
 import me.danjono.inventoryrollback.InventoryRollback.VersionName;
@@ -8,10 +7,12 @@ import me.danjono.inventoryrollback.config.MessageData;
 import me.danjono.inventoryrollback.config.SoundData;
 import me.danjono.inventoryrollback.data.LogType;
 import me.danjono.inventoryrollback.data.PlayerData;
-import me.danjono.inventoryrollback.gui.*;
+import me.danjono.inventoryrollback.gui.Buttons;
+import me.danjono.inventoryrollback.gui.InventoryName;
+import me.danjono.inventoryrollback.gui.MainMenu;
+import me.danjono.inventoryrollback.gui.RollbackListMenu;
 import me.danjono.inventoryrollback.inventory.RestoreInventory;
 import me.danjono.inventoryrollback.reflections.NBT;
-import me.danjono.inventoryrollback.util.InventoryUtils;
 import org.bukkit.*;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -21,7 +22,6 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.PlayerInventory;
 
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
