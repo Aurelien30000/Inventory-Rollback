@@ -155,7 +155,6 @@ public class ClickGUI extends Buttons implements Listener {
                 final UUID uuid = UUID.fromString(nbt.getString("uuid"));
                 final long timestamp = nbt.getLong("timestamp");
                 final LogType logType = LogType.valueOf(nbt.getString("logType"));
-                final String location = nbt.getString("location");
 
                 // Load the data on init since we are async from main
                 final FileConfiguration playerData = new PlayerData(uuid, logType, true).getData();
@@ -163,22 +162,9 @@ public class ClickGUI extends Buttons implements Listener {
                 // Does not access bukkit api
                 final RestoreInventory restore = new RestoreInventory(playerData, timestamp);
 
-                // Deserialize contents
-                final ItemStack[] inventory = restore.retrieveMainInventory();
-                final ItemStack[] armour = restore.retrieveArmour();
-                final ItemStack[] enderchest = restore.retrieveEnderChestInventory();
-
-                final boolean hasEnderChest = enderchest == null || enderchest.length > 0;
-
-                // Deserialize stats
-                final float xp = restore.getXP();
-                final double health = restore.getHealth();
-                final int hunger = restore.getHunger();
-                final float saturation = restore.getSaturation();
-
                 // This fine because nothing is accessing bukkit api here
                 final Inventory gui =
-                        new BackupMenu(staff, uuid, logType, timestamp, inventory, armour, location, hasEnderChest, health, hunger, saturation, xp)
+                        restore.getMenu(staff, uuid, logType)
                                 .showItems();
                 if (gui != null) {
                     // Open the ui from main
@@ -285,205 +271,27 @@ public class ClickGUI extends Buttons implements Listener {
 
             // Clicked icon to restore backup players inventory
             else if (icon.getType() == getInventoryIcon().getType()) {
-                final IOpenInv iOpenInv = InventoryRollback.getInstance().getOpenInvAPI();
-
-                if (offlinePlayer.isOnline() || iOpenInv != null) {
-                    final Player player;
-                    final Inventory inventory;
-                    final boolean useOpenInv;
-
-                    if (offlinePlayer.isOnline()) {
-                        player = (Player) offlinePlayer;
-                        inventory = player.getInventory();
-                        useOpenInv = false;
-                    } else {
-                        if (iOpenInv != null) {
-                            player = iOpenInv.loadPlayer(offlinePlayer);
-                            if (player == null) {
-                                staff.sendMessage(MessageData.pluginName + messages.mainInventoryNotOnline(offlinePlayer.getName()));
-                                return;
-                            }
-
-                            iOpenInv.retainPlayer(player, InventoryRollback.getInstance());
-                            try {
-                                inventory = iOpenInv.getSpecialInventory(player, false /* player is offline */).getBukkitInventory();
-                                useOpenInv = true;
-                            } catch (InstantiationException e) {
-                                staff.sendMessage(MessageData.pluginName + messages.mainInventoryNotOnline(offlinePlayer.getName()));
-                                return;
-                            }
-                        } else {
-                            staff.sendMessage(MessageData.pluginName + messages.mainInventoryNotOnline(offlinePlayer.getName()));
-                            return;
-                        }
-                    }
-
-                    if (emptyInventory(inventory)) {
-                        Bukkit.getScheduler().runTask(InventoryRollback.getInstance(), () -> {
-                            if (useOpenInv) {
-                                InventoryUtils.setSortedItems(inventory, restore.retrieveMainInventory(), restore.retrieveArmour());
-                            } else {
-                                inventory.setContents(restore.retrieveMainInventory());
-                                ((PlayerInventory) inventory).setArmorContents(restore.retrieveArmour());
-                            }
-
-                            if (SoundData.mainInventoryEnabled) {
-                                player.playSound(player.getLocation(), SoundData.mainInventory, SoundData.mainInventoryVolume, 1);
-                            }
-                        });
-                    } else {
-                        staff.sendMessage(MessageData.pluginName + messages.mainInventoryNotEmpty(offlinePlayer.getName()));
-                        return;
-                    }
-
-                    if (useOpenInv) {
-                        iOpenInv.releasePlayer(player, InventoryRollback.getInstance());
-                        player.saveData();
-                    }
-
-                    staff.sendMessage(MessageData.pluginName + messages.mainInventoryRestored(player.getName()));
-                    if (!staff.getUniqueId().equals(player.getUniqueId()))
-                        player.sendMessage(MessageData.pluginName + messages.mainInventoryRestoredPlayer(staff.getName()));
-                } else {
-                    staff.sendMessage(MessageData.pluginName + messages.mainInventoryNotOnline(offlinePlayer.getName()));
-                }
+                restore.restoreInventory(staff, offlinePlayer);
             }
 
             // Clicked icon to restore backup players ender chest
             else if (icon.getType() == getEnderChestIcon().getType()) {
-                final IOpenInv iOpenInv = InventoryRollback.getInstance().getOpenInvAPI();
-
-                if (offlinePlayer.isOnline() || iOpenInv != null) {
-                    final Player player;
-                    final Inventory inventory;
-                    final boolean useOpenInv;
-
-                    if (offlinePlayer.isOnline()) {
-                        player = (Player) offlinePlayer;
-                        inventory = player.getEnderChest();
-                        useOpenInv = false;
-                    } else {
-                        if (iOpenInv != null) {
-                            player = iOpenInv.loadPlayer(offlinePlayer);
-                            if (player == null) {
-                                staff.sendMessage(MessageData.pluginName + messages.enderChestNotOnline(offlinePlayer.getName()));
-                                return;
-                            }
-
-                            iOpenInv.retainPlayer(player, InventoryRollback.getInstance());
-                            try {
-                                inventory = iOpenInv.getSpecialEnderChest(player, false /* player is offline */).getBukkitInventory();
-                                useOpenInv = true;
-                            } catch (InstantiationException e) {
-                                staff.sendMessage(MessageData.pluginName + messages.enderChestNotOnline(offlinePlayer.getName()));
-                                return;
-                            }
-                        } else {
-                            staff.sendMessage(MessageData.pluginName + messages.enderChestNotOnline(offlinePlayer.getName()));
-                            return;
-                        }
-                    }
-
-                    if (emptyInventory(inventory)) {
-                        Bukkit.getScheduler().runTask(InventoryRollback.getInstance(), () -> {
-                            inventory.setContents(restore.retrieveEnderChestInventory());
-
-                            if (SoundData.enderChestEnabled) {
-                                player.playSound(player.getLocation(), SoundData.enderChest, SoundData.enderChestVolume, 1);
-                            }
-                        });
-                    } else {
-                        staff.sendMessage(MessageData.pluginName + messages.enderChestNotEmpty(offlinePlayer.getName()));
-                        return;
-                    }
-
-                    if (useOpenInv) {
-                        iOpenInv.releasePlayer(player, InventoryRollback.getInstance());
-                    }
-
-                    staff.sendMessage(MessageData.pluginName + messages.enderChestRestored(player.getName()));
-                    if (!staff.getUniqueId().equals(player.getUniqueId()))
-                        player.sendMessage(MessageData.pluginName + messages.enderChestRestoredPlayer(staff.getName()));
-                } else {
-                    staff.sendMessage(MessageData.pluginName + messages.enderChestNotOnline(offlinePlayer.getName()));
-                }
+                restore.restoreEnderChest(staff, offlinePlayer);
             }
 
             //Clicked icon to restore backup players health
             else if (icon.getType().equals(getHealthIcon().getType())) {
-                if (offlinePlayer.isOnline()) {
-                    final Player player = (Player) offlinePlayer;
-                    final double health = nbt.getDouble("health");
-
-                    Bukkit.getScheduler().runTask(InventoryRollback.getInstance(), () -> {
-                        player.setHealth(health);
-
-                        if (SoundData.foodEnabled) {
-                            player.playSound(player.getLocation(), SoundData.food, SoundData.foodVolume, 1);
-                        }
-
-                        staff.sendMessage(MessageData.pluginName + messages.healthRestored(player.getName()));
-                        if (!staff.getUniqueId().equals(player.getUniqueId())) {
-                            player.sendMessage(
-                                    MessageData.pluginName + messages.healthRestoredPlayer(staff.getName()));
-                        }
-                    });
-                } else {
-                    staff.sendMessage(MessageData.pluginName + messages.healthNotOnline(offlinePlayer.getName()));
-                }
+                restore.restoreHealth(staff, offlinePlayer);
             }
 
             //Clicked icon to restore backup players hunger
             else if (icon.getType().equals(getHungerIcon().getType())) {
-                if (offlinePlayer.isOnline()) {
-                    final Player player = (Player) offlinePlayer;
-                    final int hunger = nbt.getInt("hunger");
-                    final float saturation = nbt.getFloat("saturation");
-
-                    Bukkit.getScheduler().runTask(InventoryRollback.getInstance(), () -> {
-                        player.setFoodLevel(hunger);
-                        player.setSaturation(saturation);
-
-                        if (SoundData.hungerEnabled) {
-                            player.playSound(player.getLocation(), SoundData.hunger, SoundData.hungerVolume, 1);
-                        }
-
-                        staff.sendMessage(MessageData.pluginName + messages.hungerRestored(player.getName()));
-                        if (!staff.getUniqueId().equals(player.getUniqueId())) {
-                            player.sendMessage(
-                                    MessageData.pluginName + messages.hungerRestoredPlayer(staff.getName()));
-                        }
-                    });
-                } else {
-                    staff.sendMessage(
-                            MessageData.pluginName + messages.hungerNotOnline(offlinePlayer.getName()));
-                }
+                restore.restoreFood(staff, offlinePlayer);
             }
 
             //Clicked icon to restore backup players experience
             else if (icon.getType() == getExperienceIcon().getType()) {
-                if (offlinePlayer.isOnline()) {
-                    final Player player = (Player) offlinePlayer;
-                    final float xp = nbt.getFloat("xp");
-
-                    Bukkit.getScheduler().runTask(InventoryRollback.getInstance(), () -> {
-                        RestoreInventory.setTotalExperience(player, xp);
-
-                        if (SoundData.experienceEnabled) {
-                            player.playSound(
-                                    player.getLocation(), SoundData.experience, SoundData.experienceVolume, 1);
-                        }
-
-                        staff.sendMessage(MessageData.pluginName + messages
-                                .experienceRestored(player.getName(), RestoreInventory.getLevel(xp)));
-                        if (!staff.getUniqueId().equals(player.getUniqueId()))
-                            player.sendMessage(MessageData.pluginName + messages
-                                    .experienceRestoredPlayer(staff.getName(), (int) xp));
-                    });
-                } else {
-                    staff.sendMessage(
-                            MessageData.pluginName + messages.experienceNotOnline(offlinePlayer.getName()));
-                }
+                restore.restoreExperience(staff, offlinePlayer);
             }
         });
     }

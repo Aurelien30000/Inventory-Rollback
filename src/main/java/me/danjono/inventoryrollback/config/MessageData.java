@@ -142,131 +142,131 @@ public class MessageData extends ConfigFile {
         return ChatColor.translateAlternateColorCodes('&', text);
     }
 
-    public String noBackup(String name) {
+    public static String noBackup(String name) {
         return noBackup.replaceAll("%NAME%", name);
     }
 
-    public String notOnline(String name) {
+    public static String notOnline(String name) {
         return notOnline.replaceAll("%NAME%", name);
     }
 
-    public String forceSaved(String name) {
+    public static String forceSaved(String name) {
         return forceSaved.replaceAll("%NAME%", name);
     }
 
-    public String notForcedSaved(String name) {
+    public static String notForcedSaved(String name) {
         return notForcedSaved.replaceAll("%NAME%", name);
     }
 
-    public String mainInventoryNotEmpty(String name) {
+    public static String mainInventoryNotEmpty(String name) {
         return mainInventoryNotEmpty.replaceAll("%NAME%", name);
     }
 
-    public String mainInventoryRestored(String name) {
+    public static String mainInventoryRestored(String name) {
         return mainInventoryRestored.replaceAll("%NAME%", name);
     }
 
-    public String mainInventoryRestoredPlayer(String name) {
+    public static String mainInventoryRestoredPlayer(String name) {
         return mainInventoryRestoredPlayer.replaceAll("%NAME%", name);
     }
 
-    public String mainInventoryNotOnline(String name) {
+    public static String mainInventoryNotOnline(String name) {
         return mainInventoryNotOnline.replaceAll("%NAME%", name);
     }
 
-    public String enderChestNotEmpty(String name) {
+    public static String enderChestNotEmpty(String name) {
         return enderChestNotEmpty.replaceAll("%NAME%", name);
     }
 
-    public String enderChestRestored(String name) {
+    public static String enderChestRestored(String name) {
         return enderChestRestored.replaceAll("%NAME%", name);
     }
 
-    public String enderChestRestoredPlayer(String name) {
+    public static String enderChestRestoredPlayer(String name) {
         return enderChestRestoredPlayer.replaceAll("%NAME%", name);
     }
 
-    public String enderChestNotOnline(String name) {
+    public static String enderChestNotOnline(String name) {
         return enderChestNotOnline.replaceAll("%NAME%", name);
     }
 
-    public String healthRestored(String name) {
+    public static String healthRestored(String name) {
         return healthRestored.replaceAll("%NAME%", name);
     }
 
-    public String healthRestoredPlayer(String name) {
+    public static String healthRestoredPlayer(String name) {
         return healthRestoredPlayer.replaceAll("%NAME%", name);
     }
 
-    public String healthNotOnline(String name) {
+    public static String healthNotOnline(String name) {
         return healthNotOnline.replaceAll("%NAME%", name);
     }
 
-    public String hungerRestored(String name) {
+    public static String hungerRestored(String name) {
         return hungerRestored.replaceAll("%NAME%", name);
     }
 
-    public String hungerRestoredPlayer(String name) {
+    public static String hungerRestoredPlayer(String name) {
         return hungerRestoredPlayer.replaceAll("%NAME%", name);
     }
 
-    public String hungerNotOnline(String name) {
+    public static String hungerNotOnline(String name) {
         return hungerNotOnline.replaceAll("%NAME%", name);
     }
 
-    public String experienceRestored(String name, int xp) {
+    public static String experienceRestored(String name, int xp) {
         return experienceRestored.replaceAll("%NAME%", name).replaceAll("%XP%", xp + "");
     }
 
-    public String experienceRestoredPlayer(String name, int xp) {
+    public static String experienceRestoredPlayer(String name, int xp) {
         return experienceRestoredPlayer.replaceAll("%NAME%", name).replaceAll("%XP%", xp + "");
     }
 
-    public String experienceNotOnline(String name) {
+    public static String experienceNotOnline(String name) {
         return experienceNotOnline.replaceAll("%NAME%", name);
     }
 
-    public String deathLocationWorld(String world) {
+    public static String deathLocationWorld(String world) {
         return deathLocationWorld.replaceAll("%WORLD%", world);
     }
 
-    public String deathLocationX(String x) {
+    public static String deathLocationX(String x) {
         return deathLocationX.replaceAll("%X%", x);
     }
 
-    public String deathLocationY(String y) {
+    public static String deathLocationY(String y) {
         return deathLocationY.replaceAll("%Y%", y);
     }
 
-    public String deathLocationZ(String z) {
+    public static String deathLocationZ(String z) {
         return deathLocationZ.replaceAll("%Z%", z);
     }
 
-    public String deathLocationTeleport(Location location) {
+    public static String deathLocationTeleport(Location location) {
         return deathLocationTeleport.replaceAll("%LOCATION%", "X:" + location.getX() + " Y:" + location.getY() + " Z:" + location.getZ());
     }
 
-    public String deathLocationInvalidWorld(String world) {
+    public static String deathLocationInvalidWorld(String world) {
         return deathLocationInvalidWorld.replaceAll("%WORLD%", world);
     }
 
-    public String deathReason(String reason) {
+    public static String deathReason(String reason) {
         return deathReason.replaceAll("%REASON%", reason);
     }
 
-    public String deathTime(String time) {
+    public static String deathTime(String time) {
         return deathTime.replaceAll("%TIME%", time);
     }
 
-    public String restoreHealthLevel(String health) {
+    public static String restoreHealthLevel(String health) {
         return restoreHealthLevel.replaceAll("%HEALTH%", health);
     }
 
-    public String restoreHungerLevel(String hunger) {
+    public static String restoreHungerLevel(String hunger) {
         return restoreHungerLevel.replaceAll("%HUNGER%", hunger);
     }
 
-    public String restoreExperienceLevel(String xp) {
+    public static String restoreExperienceLevel(String xp) {
         return restoreExperienceLevel.replaceAll("%XP%", xp);
     }
 
