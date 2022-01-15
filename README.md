@@ -23,6 +23,7 @@ By default, it will log 50 deaths and 10 joins, disconnects, world changes and f
 ## Permissions
 
 inventoryrollback.restore - Allows access to */ir restore* (Default: OP)  
+inventoryrollback.restore - Allows access to */ir backups* (Default: OP)  
 inventoryrollback.forcebackup - Allows access to */ir forcebackup* (Default: OP)  
 
 inventoryrollback.deathsave - Saves inventory on a player death. (Default: All)  
