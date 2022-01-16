@@ -56,7 +56,7 @@ public class Commands extends ConfigFile implements TabExecutor {
         FileConfiguration config = data.getData();
         List<Long> saves = config.getConfigurationSection("data").getKeys(false).stream()
                 .map(Long::valueOf).sorted(Comparator.reverseOrder()).collect(Collectors.toList());
-        if (saves.size() < index)
+        if (index < 1 || saves.size() < index)
             return null;
         long key = saves.get(index - 1);
         ConfigurationSection save = config.getConfigurationSection("data." + key);
