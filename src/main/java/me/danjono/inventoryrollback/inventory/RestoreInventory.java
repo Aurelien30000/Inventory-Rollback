@@ -192,10 +192,10 @@ public class RestoreInventory {
     }
 
     public String getLocationString() {
-        String world = playerData.getString("location.world");
-        String x = playerData.getString("location.x");
-        String y = playerData.getString("location.y");
-        String z = playerData.getString("location.z");
+        String world = playerData.getString("data." + timestamp + ".location.world");
+        String x = playerData.getString("data." + timestamp + ".location.x");
+        String y = playerData.getString("data." + timestamp + ".location.y");
+        String z = playerData.getString("data." + timestamp + ".location.z");
         return world + "," + x + "," + y + "," + z;
     }
 
