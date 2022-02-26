@@ -229,7 +229,6 @@ public class ClickGUI extends Buttons implements Listener {
 
         future.thenAccept(data -> {
             final FileConfiguration playerData = data.getData();
-
             final RestoreInventory restore = new RestoreInventory(playerData, timestamp);
 
             //Click on page selector button to go back to rollback menu

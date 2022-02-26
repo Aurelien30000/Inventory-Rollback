@@ -68,13 +68,13 @@ public class BackupMenu {
             inv.setItem(50, buttons.enderChestButton(playerUUID, logType, timestamp));
 
         //Add health icon
-        inv.setItem(51, buttons.healthButton(playerUUID, logType, health));
+        inv.setItem(51, buttons.healthButton(playerUUID, logType, timestamp, health));
 
         //Add hunger icon
-        inv.setItem(52, buttons.hungerButton(playerUUID, logType, hunger, saturation));
+        inv.setItem(52, buttons.hungerButton(playerUUID, logType, timestamp, hunger, saturation));
 
         //Add Experience Bottle
-        inv.setItem(53, buttons.experiencePotion(playerUUID, logType, xp));
+        inv.setItem(53, buttons.experiencePotion(playerUUID, logType, timestamp, xp));
 
         return inv;
     }

@@ -189,7 +189,7 @@ public class Buttons {
         return button;
     }
 
-    public ItemStack createInventoryButton(ItemStack item, UUID uuid, LogType logType, String location, Long time, String displayName, List<String> lore) {
+    public ItemStack createInventoryButton(ItemStack item, UUID uuid, LogType logType, String location, Long timestamp, String displayName, List<String> lore) {
         final ItemMeta meta = item.getItemMeta();
         //meta.setDisplayName(name);
 
@@ -205,7 +205,7 @@ public class Buttons {
 
         nbt.setString("uuid", uuid.toString());
         nbt.setString("logType", logType.name());
-        nbt.setLong("timestamp", time);
+        nbt.setLong("timestamp", timestamp);
         nbt.setString("location", location);
         item = nbt.setItemData();
 
@@ -282,6 +282,7 @@ public class Buttons {
 
         nbt.setString("uuid", uuid.toString());
         nbt.setString("logType", logType.name());
+        nbt.setLong("timestamp", timestamp);
         nbt.setString("location", location);
         item = nbt.setItemData();
 
@@ -324,7 +325,7 @@ public class Buttons {
         return item;
     }
 
-    public ItemStack healthButton(UUID uuid, LogType logType, double health) {
+    public ItemStack healthButton(UUID uuid, LogType logType, Long timestamp, double health) {
         ItemStack item = new ItemStack(getHealthIcon());
 
         final ItemMeta meta = item.getItemMeta();
@@ -340,13 +341,14 @@ public class Buttons {
 
         nbt.setString("uuid", uuid.toString());
         nbt.setString("logType", logType.name());
+        nbt.setLong("timestamp", timestamp);
         nbt.setDouble("health", health);
         item = nbt.setItemData();
 
         return item;
     }
 
-    public ItemStack hungerButton(UUID uuid, LogType logType, int hunger, float saturation) {
+    public ItemStack hungerButton(UUID uuid, LogType logType, Long timestamp, int hunger, float saturation) {
         ItemStack item = new ItemStack(getHungerIcon());
 
         final ItemMeta meta = item.getItemMeta();
@@ -362,6 +364,7 @@ public class Buttons {
 
         nbt.setString("uuid", uuid.toString());
         nbt.setString("logType", logType.name());
+        nbt.setLong("timestamp", timestamp);
         nbt.setInt("hunger", hunger);
         nbt.setFloat("saturation", saturation);
         item = nbt.setItemData();
@@ -369,7 +372,7 @@ public class Buttons {
         return item;
     }
 
-    public ItemStack experiencePotion(UUID uuid, LogType logType, float xp) {
+    public ItemStack experiencePotion(UUID uuid, LogType logType, Long timestamp, float xp) {
         ItemStack item = new ItemStack(getExperienceIcon());
 
         final ItemMeta meta = item.getItemMeta();
@@ -385,6 +388,7 @@ public class Buttons {
 
         nbt.setString("uuid", uuid.toString());
         nbt.setString("logType", logType.name());
+        nbt.setLong("timestamp", timestamp);
         nbt.setFloat("xp", xp);
         item = nbt.setItemData();
 

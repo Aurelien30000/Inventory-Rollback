@@ -81,15 +81,15 @@ public class RollbackListMenu {
 
         for (int i = 0; i < spaceRequired; i++) {
             try {
-                final long time = timeStamps.get(((pageNumber - 1) * spaceRequired) + i);
-                final ConfigurationSection section = dataSection.getConfigurationSection(String.valueOf(time));
+                final long timestamp = timeStamps.get(((pageNumber - 1) * spaceRequired) + i);
+                final ConfigurationSection section = dataSection.getConfigurationSection(String.valueOf(timestamp));
                 String deathReason = null;
                 try {
-                    deathReason = messages.deathReason(playerData.getString("data." + time + ".deathReason"));
+                    deathReason = messages.deathReason(playerData.getString("data." + timestamp + ".deathReason"));
                 } catch (NullPointerException ignored) {
                 }
 
-                final String displayName = messages.deathTime(getTime(time));
+                final String displayName = messages.deathTime(getTime(timestamp));
 
                 final List<String> lore = new ArrayList<>();
                 if (deathReason != null)
@@ -106,7 +106,7 @@ public class RollbackListMenu {
                 lore.add(messages.deathLocationY(y));
                 lore.add(messages.deathLocationZ(z));
 
-                final ItemStack inventory = buttons.createInventoryButton(new ItemStack(Material.CHEST), playerUUID, logType, location, time, displayName, lore);
+                final ItemStack inventory = buttons.createInventoryButton(new ItemStack(Material.CHEST), playerUUID, logType, location, timestamp, displayName, lore);
 
                 backupMenu.setItem(position, inventory);
 
