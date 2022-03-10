@@ -24,13 +24,13 @@ import java.util.UUID;
 
 public class Buttons {
 
-    private static final Material pageSelector = Material.getMaterial(InventoryRollback.getVersion().greaterThanOrEqualTo(VersionName.v1_13_v1_16) ? "WHITE_BANNER" : "BANNER");
+    private static final Material pageSelector = Material.getMaterial(InventoryRollback.getVersion().greaterThanOrEqualTo(VersionName.v1_13_R1) ? "WHITE_BANNER" : "BANNER");
     private static final Material enderPearl = Material.ENDER_PEARL;
     private static final Material inventory = Material.CHEST;
     private static final Material enderChest = Material.ENDER_CHEST;
-    private static final Material health = Material.getMaterial(InventoryRollback.getVersion().greaterThanOrEqualTo(VersionName.v1_13_v1_16) ? "MELON_SLICE" : "MELON");
+    private static final Material health = Material.getMaterial(InventoryRollback.getVersion().greaterThanOrEqualTo(VersionName.v1_13_R1) ? "MELON_SLICE" : "MELON");
     private static final Material hunger = Material.ROTTEN_FLESH;
-    private static final Material experience = Material.getMaterial(InventoryRollback.getVersion().greaterThanOrEqualTo(VersionName.v1_13_v1_16) ? "EXPERIENCE_BOTTLE" : "EXP_BOTTLE");
+    private static final Material experience = Material.getMaterial(InventoryRollback.getVersion().greaterThanOrEqualTo(VersionName.v1_13_R1) ? "EXPERIENCE_BOTTLE" : "EXP_BOTTLE");
 
     public static ItemStack getPageSelectorIcon() {
         return new ItemStack(pageSelector);
@@ -234,7 +234,7 @@ public class Buttons {
     public ItemStack playerHead(OfflinePlayer player, List<String> lore) {
         final ItemStack skull;
 
-        if (InventoryRollback.getVersion().greaterThanOrEqualTo(VersionName.v1_13_v1_16)) {
+        if (InventoryRollback.getVersion().greaterThanOrEqualTo(VersionName.v1_13_R1)) {
             skull = new ItemStack(Material.getMaterial("PLAYER_HEAD"));
         } else {
             skull = new ItemStack(Material.getMaterial("SKULL_ITEM"), 1, (short) SkullType.PLAYER.ordinal());
@@ -245,7 +245,7 @@ public class Buttons {
         try {
             final Method method;
 
-            if (InventoryRollback.getVersion().greaterThanOrEqualTo(VersionName.v1_13_v1_16)) {
+            if (InventoryRollback.getVersion().greaterThanOrEqualTo(VersionName.v1_13_R1)) {
                 method = skullMeta.getClass().getMethod("setOwningPlayer", OfflinePlayer.class);
                 method.setAccessible(true);
                 method.invoke(skullMeta, player);

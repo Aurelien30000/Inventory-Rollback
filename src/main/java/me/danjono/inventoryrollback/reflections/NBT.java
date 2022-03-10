@@ -26,7 +26,7 @@ public class NBT {
             final Class<?> nmsItemStackClass;
             final Class<?> nbtClass;
 
-            if (InventoryRollback.getVersion().greaterThanOrEqualTo(InventoryRollback.VersionName.v1_17)) {
+            if (InventoryRollback.getVersion().greaterThanOrEqualTo(InventoryRollback.VersionName.v1_17_R1)) {
                 nmsItemStackClass = Packets.getNMSClass("world.item.ItemStack");
                 nbtClass = Packets.getNMSClass("nbt.NBTTagCompound");
             } else {
@@ -43,8 +43,13 @@ public class NBT {
             final String getTagMethodName, setTagMethodName,
                     getTagString, getTagInteger, getTagLong, getTagFloat, getTagDouble,
                     setTagString, setTagInteger, setTagLong, setTagFloat, setTagDouble;
-            if (InventoryRollback.getVersion().greaterThanOrEqualTo(InventoryRollback.VersionName.v1_18_PLUS)) {
-                getTagMethodName = "s";
+            final InventoryRollback.VersionName version = InventoryRollback.getVersion();
+            if (version.greaterThanOrEqualTo(InventoryRollback.VersionName.v1_18_R1)) {
+                if (version.greaterThanOrEqualTo(InventoryRollback.VersionName.v1_18_R2)) {
+                    getTagMethodName = "t";
+                } else {
+                    getTagMethodName = "s";
+                }
                 setTagMethodName = "c";
 
                 getTagString = "l";

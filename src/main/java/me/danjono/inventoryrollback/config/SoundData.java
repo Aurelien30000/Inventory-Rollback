@@ -36,9 +36,9 @@ public class SoundData extends ConfigFile {
         try {
             enderPearl = Sound.valueOf((String) getDefaultValue("sounds.enderPearl.sound", "ENTITY_ENDERMEN_TELEPORT"));
         } catch (IllegalArgumentException e) {
-            if (InventoryRollback.getVersion().equals(VersionName.v1_8)) {
+            if (InventoryRollback.getVersion().between(VersionName.v1_8_R1, VersionName.v1_8_R3)) {
                 enderPearl = Sound.valueOf("ENDERMAN_TELEPORT");
-            } else if (InventoryRollback.getVersion().equals(VersionName.v1_9_v1_12)) {
+            } else if (InventoryRollback.getVersion().between(VersionName.v1_9_R1, VersionName.v1_12_R1)) {
                 enderPearl = Sound.valueOf("ENTITY_ENDERMEN_TELEPORT");
             } else {
                 enderPearl = Sound.valueOf("ENTITY_ENDERMAN_TELEPORT");
@@ -50,9 +50,9 @@ public class SoundData extends ConfigFile {
         try {
             mainInventory = Sound.valueOf((String) getDefaultValue("sounds.mainInventory.sound", "ENTITY_HORSE_ARMOR"));
         } catch (IllegalArgumentException e) {
-            if (InventoryRollback.getVersion().equals(VersionName.v1_8)) {
+            if (InventoryRollback.getVersion().between(VersionName.v1_8_R1, VersionName.v1_8_R3)) {
                 mainInventory = Sound.valueOf("HORSE_ARMOR");
-            } else if (InventoryRollback.getVersion().equals(VersionName.v1_9_v1_12)) {
+            } else if (InventoryRollback.getVersion().between(VersionName.v1_9_R1, VersionName.v1_12_R1)) {
                 mainInventory = Sound.valueOf("ENTITY_HORSE_ARMOR");
             } else {
                 mainInventory = Sound.valueOf("ENTITY_HORSE_ARMOR");
@@ -64,9 +64,9 @@ public class SoundData extends ConfigFile {
         try {
             enderChest = Sound.valueOf((String) getDefaultValue("sounds.enderChest.sound", "ENTITY_ENDERDRAGON_FLAP"));
         } catch (IllegalArgumentException e) {
-            if (InventoryRollback.getVersion().equals(VersionName.v1_8)) {
+            if (InventoryRollback.getVersion().between(VersionName.v1_8_R1, VersionName.v1_8_R3)) {
                 enderChest = Sound.valueOf("ENDERDRAGON_WINGS");
-            } else if (InventoryRollback.getVersion().equals(VersionName.v1_9_v1_12)) {
+            } else if (InventoryRollback.getVersion().between(VersionName.v1_9_R1, VersionName.v1_12_R1)) {
                 enderChest = Sound.valueOf("ENTITY_ENDERDRAGON_FLAP");
             } else {
                 enderChest = Sound.valueOf("ENTITY_ENDER_DRAGON_FLAP");
@@ -78,9 +78,9 @@ public class SoundData extends ConfigFile {
         try {
             food = Sound.valueOf((String) getDefaultValue("sounds.food.sound", "ENTITY_GENERIC_EAT"));
         } catch (IllegalArgumentException e) {
-            if (InventoryRollback.getVersion().equals(VersionName.v1_8)) {
+            if (InventoryRollback.getVersion().between(VersionName.v1_8_R1, VersionName.v1_8_R3)) {
                 food = Sound.valueOf("EAT");
-            } else if (InventoryRollback.getVersion().equals(VersionName.v1_9_v1_12)) {
+            } else if (InventoryRollback.getVersion().between(VersionName.v1_9_R1, VersionName.v1_12_R1)) {
                 food = Sound.valueOf("ENTITY_GENERIC_EAT");
             } else {
                 food = Sound.valueOf("ENTITY_GENERIC_EAT");
@@ -92,9 +92,9 @@ public class SoundData extends ConfigFile {
         try {
             hunger = Sound.valueOf((String) getDefaultValue("sounds.hunger.sound", "ENTITY_HORSE_EAT"));
         } catch (IllegalArgumentException e) {
-            if (InventoryRollback.getVersion().equals(VersionName.v1_8)) {
+            if (InventoryRollback.getVersion().between(VersionName.v1_8_R1, VersionName.v1_8_R3)) {
                 hunger = Sound.valueOf("HORSE_IDLE");
-            } else if (InventoryRollback.getVersion().equals(VersionName.v1_9_v1_12)) {
+            } else if (InventoryRollback.getVersion().between(VersionName.v1_9_R1, VersionName.v1_12_R1)) {
                 hunger = Sound.valueOf("ENTITY_HORSE_EAT");
             } else {
                 hunger = Sound.valueOf("ENTITY_HORSE_EAT");
@@ -106,9 +106,9 @@ public class SoundData extends ConfigFile {
         try {
             experience = Sound.valueOf((String) getDefaultValue("sounds.xp.sound", "ENTITY_PLAYER_LEVELUP"));
         } catch (IllegalArgumentException e) {
-            if (InventoryRollback.getVersion().equals(VersionName.v1_8)) {
+            if (InventoryRollback.getVersion().between(VersionName.v1_8_R1, VersionName.v1_8_R3)) {
                 experience = Sound.valueOf("LEVEL_UP");
-            } else if (InventoryRollback.getVersion().equals(VersionName.v1_9_v1_12)) {
+            } else if (InventoryRollback.getVersion().between(VersionName.v1_9_R1, VersionName.v1_12_R1)) {
                 experience = Sound.valueOf("ENTITY_PLAYER_LEVELUP");
             } else {
                 experience = Sound.valueOf("ENTITY_PLAYER_LEVELUP");
