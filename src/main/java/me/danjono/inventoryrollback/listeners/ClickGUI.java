@@ -44,7 +44,7 @@ public class ClickGUI extends Buttons implements Listener {
         e.setCancelled(true);
 
         //Check if inventory is a virtual one and not one that has the same name on a player chest
-        if (InventoryRollback.getVersion().greaterThanOrEqualTo(VersionName.v1_9_R1)) {
+        if (InventoryRollback.getVersion().isAtLeast(VersionName.v1_9_R1)) {
             if (e.getInventory().getLocation() != null) {
                 e.setCancelled(false);
                 return;
@@ -71,7 +71,7 @@ public class ClickGUI extends Buttons implements Listener {
         e.setCancelled(true);
 
         //Check if inventory is a virtual one and not one that has the same name on a player chest
-        if (InventoryRollback.getVersion().greaterThanOrEqualTo(VersionName.v1_9_R1)) {
+        if (InventoryRollback.getVersion().isAtLeast(VersionName.v1_9_R1)) {
             if (e.getInventory().getLocation() != null) {
                 e.setCancelled(false);
                 return;
