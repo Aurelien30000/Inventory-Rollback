@@ -101,7 +101,8 @@ public class InventoryRollback extends JavaPlugin {
         v1_18_R1,
         v1_18_R2,
         v1_19_R1,
-        v1_19_R2;
+        v1_19_R2,
+        v1_19_R3;
 
         public boolean isAtLeast(VersionName versionName) {
             return this.ordinal() >= versionName.ordinal();
@@ -112,15 +113,15 @@ public class InventoryRollback extends JavaPlugin {
         }
     }
 
-    private static VersionName version = VersionName.v1_19_R2;
+    private static VersionName VERSION = VersionName.v1_19_R3;
 
     public static VersionName getVersion() {
-        return version;
+        return VERSION;
     }
 
     private boolean isCompatible() {
         try {
-            version = VersionName.valueOf(packageVersion);
+            VERSION = VersionName.valueOf(packageVersion);
             return true;
         } catch (IllegalArgumentException e) {
             return false;
