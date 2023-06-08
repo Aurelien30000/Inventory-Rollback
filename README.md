@@ -2,7 +2,7 @@
 
 # Inventory Rollback
 
-### Minecraft Bukkit Plugin - Tested with versions 1.8.8 - 1.18
+### Minecraft Bukkit Plugin - Tested with versions 1.8.8 - 1.20
 
 This plugin will log a players' inventory, health, hunger, experience, and ender chest during certain events. Perfect if
 someone loses their gear because of an admin mishap or if a bad plugin accidentally wipes a players data for example!
