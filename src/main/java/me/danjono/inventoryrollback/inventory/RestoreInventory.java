@@ -161,11 +161,10 @@ public class RestoreInventory {
                     + "There was an error deserializing the material data. This is likely caused by a now incompatible material ID if the backup was originally generated on a different Minecraft server version.");
         }
         //Backup was not generated on the same server version
-        else if (!packageVersion.equalsIgnoreCase(InventoryRollback.getPackageVersion())) {
+        else if (!packageVersion.equalsIgnoreCase(InventoryRollback.getGameVersion())) {
             InventoryRollback.logger.log(Level.SEVERE, ChatColor.stripColor(MessageData.pluginName)
                     + "There was an error deserializing the material data. The backup was generated on a "
-                    + packageVersion + " version server whereas you are now running a " + InventoryRollback
-                    .getPackageVersion()
+                    + packageVersion + " version server whereas you are now running a " + InventoryRollback.getGameVersion()
                     + " version server. It is likely a material ID inside the backup is no longer valid on this Minecraft server version and cannot be convereted.");
         }
         //Unknown error

@@ -19,7 +19,7 @@ public class InventoryRollback extends JavaPlugin {
     public static final Logger logger = Logger.getLogger("InventoryRollback");
     private static InventoryRollback instance;
 
-    private static String packageVersion;
+    private static String gameVersion;
 
     public static InventoryRollback getInstance() {
         return instance;
@@ -29,8 +29,8 @@ public class InventoryRollback extends JavaPlugin {
         return instance.getDescription().getVersion();
     }
 
-    public static String getPackageVersion() {
-        return packageVersion;
+    public static String getGameVersion() {
+        return gameVersion;
     }
 
     private IOpenInv openInvAPI;
@@ -42,11 +42,11 @@ public class InventoryRollback extends JavaPlugin {
     @Override
     public void onEnable() {
         instance = this;
-        packageVersion = Bukkit.getServer().getClass().getPackage().getName().replace(".", ",").split(",")[3];
+        gameVersion = Bukkit.getMinecraftVersion();
 
         if (!isCompatible()) {
             logger.log(Level.WARNING, ChatColor.RED + " ** WARNING... Plugin may not be compatible with this version of Minecraft. **");
-            logger.log(Level.WARNING, ChatColor.RED + " ** Tested versions: 1.8.8 to 1.20.4 **");
+            logger.log(Level.WARNING, ChatColor.RED + " ** Tested versions: 1.17.1 to 1.20.4 **");
             logger.log(Level.WARNING, ChatColor.RED + " ** Please fully test the plugin before using on your server as features may be broken. **");
         }
 
@@ -82,30 +82,20 @@ public class InventoryRollback extends JavaPlugin {
     }
 
     public enum VersionName {
-        v1_8_R1,
-        v1_8_R2,
-        v1_8_R3,
-        v1_9_R1,
-        v1_9_R2,
-        v1_10_R1,
-        v1_11_R1,
-        v1_12_R1,
-        v1_13_R1,
-        v1_13_R2,
-        v1_14_R1,
-        v1_15_R1,
-        v1_16_R1,
-        v1_16_R2,
-        v1_16_R3,
-        v1_17_R1,
-        v1_18_R1,
-        v1_18_R2,
-        v1_19_R1,
-        v1_19_R2,
-        v1_19_R3,
-        v1_20_R1,
-        v1_20_R2,
-        v1_20_R3;
+        v1_17_1,
+        v1_18_0,
+        v1_18_1,
+        v1_18_2,
+        v1_19_0,
+        v1_19_1,
+        v1_19_2,
+        v1_19_3,
+        v1_19_4,
+        v1_20_0,
+        v1_20_1,
+        v1_20_2,
+        v1_20_3,
+        v1_20_4;
 
         public boolean isAtLeast(VersionName versionName) {
             return this.ordinal() >= versionName.ordinal();
@@ -116,7 +106,7 @@ public class InventoryRollback extends JavaPlugin {
         }
     }
 
-    private static VersionName VERSION = VersionName.v1_20_R1;
+    private static VersionName VERSION = VersionName.v1_20_4;
 
     public static VersionName getVersion() {
         return VERSION;
@@ -124,7 +114,7 @@ public class InventoryRollback extends JavaPlugin {
 
     private boolean isCompatible() {
         try {
-            VERSION = VersionName.valueOf(packageVersion);
+            VERSION = VersionName.valueOf("v" + gameVersion.replace(".", "_"));
             return true;
         } catch (IllegalArgumentException e) {
             return false;

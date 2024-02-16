@@ -1,13 +1,14 @@
 package me.danjono.inventoryrollback.gui;
 
-import me.danjono.inventoryrollback.InventoryRollback;
-import me.danjono.inventoryrollback.InventoryRollback.VersionName;
 import me.danjono.inventoryrollback.config.MessageData;
 import me.danjono.inventoryrollback.data.LogType;
 import me.danjono.inventoryrollback.inventory.RestoreInventory;
 import me.danjono.inventoryrollback.reflections.NBT;
 import me.danjono.inventoryrollback.util.MathUtils;
-import org.bukkit.*;
+import org.bukkit.ChatColor;
+import org.bukkit.DyeColor;
+import org.bukkit.Material;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.block.banner.Pattern;
 import org.bukkit.block.banner.PatternType;
 import org.bukkit.inventory.ItemFlag;
@@ -16,21 +17,19 @@ import org.bukkit.inventory.meta.BannerMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 public class Buttons {
 
-    private static final Material pageSelector = Material.getMaterial(InventoryRollback.getVersion().isAtLeast(VersionName.v1_13_R1) ? "WHITE_BANNER" : "BANNER");
+    private static final Material pageSelector = Material.WHITE_BANNER;
     private static final Material enderPearl = Material.ENDER_PEARL;
     private static final Material inventory = Material.CHEST;
     private static final Material enderChest = Material.ENDER_CHEST;
-    private static final Material health = Material.getMaterial(InventoryRollback.getVersion().isAtLeast(VersionName.v1_13_R1) ? "MELON_SLICE" : "MELON");
+    private static final Material health = Material.MELON_SLICE;
     private static final Material hunger = Material.ROTTEN_FLESH;
-    private static final Material experience = Material.getMaterial(InventoryRollback.getVersion().isAtLeast(VersionName.v1_13_R1) ? "EXPERIENCE_BOTTLE" : "EXP_BOTTLE");
+    private static final Material experience = Material.EXPERIENCE_BOTTLE;
 
     public static ItemStack getPageSelectorIcon() {
         return new ItemStack(pageSelector);
@@ -232,33 +231,9 @@ public class Buttons {
     }
 
     public ItemStack playerHead(OfflinePlayer player, List<String> lore) {
-        final ItemStack skull;
-
-        if (InventoryRollback.getVersion().isAtLeast(VersionName.v1_13_R1)) {
-            skull = new ItemStack(Material.getMaterial("PLAYER_HEAD"));
-        } else {
-            skull = new ItemStack(Material.getMaterial("SKULL_ITEM"), 1, (short) SkullType.PLAYER.ordinal());
-        }
-
+        final ItemStack skull = new ItemStack(Material.PLAYER_HEAD);
         final SkullMeta skullMeta = (SkullMeta) skull.getItemMeta();
-
-        try {
-            final Method method;
-
-            if (InventoryRollback.getVersion().isAtLeast(VersionName.v1_13_R1)) {
-                method = skullMeta.getClass().getMethod("setOwningPlayer", OfflinePlayer.class);
-                method.setAccessible(true);
-                method.invoke(skullMeta, player);
-            } else {
-                method = skullMeta.getClass().getMethod("setOwner", String.class);
-                method.setAccessible(true);
-                method.invoke(skullMeta, player.getName());
-            }
-            method.setAccessible(false);
-        } catch (IllegalAccessException | IllegalArgumentException | SecurityException | NoSuchMethodException | InvocationTargetException e) {
-            e.printStackTrace();
-        }
-
+        skullMeta.setOwningPlayer(player);
         skullMeta.setDisplayName(ChatColor.RESET + player.getName());
 
         if (lore != null) {

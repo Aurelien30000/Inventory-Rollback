@@ -26,13 +26,9 @@ public class NBT {
             final Class<?> nmsItemStackClass;
             final Class<?> nbtClass;
 
-            if (InventoryRollback.getVersion().isAtLeast(InventoryRollback.VersionName.v1_17_R1)) {
-                nmsItemStackClass = Packets.getNMSClass("world.item.ItemStack");
-                nbtClass = Packets.getNMSClass("nbt.NBTTagCompound");
-            } else {
-                nmsItemStackClass = Packets.getNMSClass("ItemStack");
-                nbtClass = Packets.getNMSClass("NBTTagCompound");
-            }
+            // 1.17.1+
+            nmsItemStackClass = Packets.getNMSClass("world.item.ItemStack");
+            nbtClass = Packets.getNMSClass("nbt.NBTTagCompound");
 
             final Class<?> craftItemStackClass = Packets.getCraftBukkitClass("inventory.CraftItemStack");
 
@@ -44,12 +40,12 @@ public class NBT {
                     getTagString, getTagInteger, getTagLong, getTagFloat, getTagDouble,
                     setTagString, setTagInteger, setTagLong, setTagFloat, setTagDouble;
             final InventoryRollback.VersionName version = InventoryRollback.getVersion();
-            if (version.isAtLeast(InventoryRollback.VersionName.v1_18_R1)) {
-                if (version.isAtLeast(InventoryRollback.VersionName.v1_20_R1)) {
+            if (version.isAtLeast(InventoryRollback.VersionName.v1_18_0)) {
+                if (version.isAtLeast(InventoryRollback.VersionName.v1_20_0)) {
                     getTagMethodName = "v";
-                } else if (version.isAtLeast(InventoryRollback.VersionName.v1_19_R1)) {
+                } else if (version.isAtLeast(InventoryRollback.VersionName.v1_19_0)) {
                     getTagMethodName = "u";
-                } else if (version.isAtLeast(InventoryRollback.VersionName.v1_18_R2)) {
+                } else if (version.isAtLeast(InventoryRollback.VersionName.v1_18_2)) {
                     getTagMethodName = "t";
                 } else {
                     getTagMethodName = "s";

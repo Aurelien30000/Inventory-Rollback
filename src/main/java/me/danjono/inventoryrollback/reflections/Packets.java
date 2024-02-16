@@ -1,17 +1,17 @@
 package me.danjono.inventoryrollback.reflections;
 
-import me.danjono.inventoryrollback.InventoryRollback;
+import org.bukkit.Bukkit;
 
 public class Packets {
 
+    private static final String CRAFTBUKKIT_PACKAGE = Bukkit.getServer().getClass().getPackage().getName();
+
     public static Class<?> getNMSClass(String name) throws ClassNotFoundException {
-        return InventoryRollback.getVersion().isAtLeast(InventoryRollback.VersionName.v1_17_R1)
-                ? Class.forName("net.minecraft." + name)
-                : Class.forName("net.minecraft.server." + InventoryRollback.getPackageVersion() + "." + name);
+        return Class.forName("net.minecraft." + name);
     }
 
     public static Class<?> getCraftBukkitClass(String name) throws ClassNotFoundException {
-        return Class.forName("org.bukkit.craftbukkit." + InventoryRollback.getPackageVersion() + "." + name);
+        return Class.forName(CRAFTBUKKIT_PACKAGE + "." + name);
     }
 
 }

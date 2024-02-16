@@ -2,7 +2,6 @@ package me.danjono.inventoryrollback.listeners;
 
 import io.papermc.lib.PaperLib;
 import me.danjono.inventoryrollback.InventoryRollback;
-import me.danjono.inventoryrollback.InventoryRollback.VersionName;
 import me.danjono.inventoryrollback.config.MessageData;
 import me.danjono.inventoryrollback.config.SoundData;
 import me.danjono.inventoryrollback.data.LogType;
@@ -44,11 +43,9 @@ public class ClickGUI extends Buttons implements Listener {
         e.setCancelled(true);
 
         //Check if inventory is a virtual one and not one that has the same name on a player chest
-        if (InventoryRollback.getVersion().isAtLeast(VersionName.v1_9_R1)) {
-            if (e.getInventory().getLocation() != null) {
-                e.setCancelled(false);
-                return;
-            }
+        if (e.getInventory().getLocation() != null) {
+            e.setCancelled(false);
+            return;
         }
 
         for (Integer slot : e.getRawSlots()) {
@@ -71,11 +68,9 @@ public class ClickGUI extends Buttons implements Listener {
         e.setCancelled(true);
 
         //Check if inventory is a virtual one and not one that has the same name on a player chest
-        if (InventoryRollback.getVersion().isAtLeast(VersionName.v1_9_R1)) {
-            if (e.getInventory().getLocation() != null) {
-                e.setCancelled(false);
-                return;
-            }
+        if (e.getInventory().getLocation() != null) {
+            e.setCancelled(false);
+            return;
         }
 
         staff = (Player) e.getWhoClicked();

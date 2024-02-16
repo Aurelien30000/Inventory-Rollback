@@ -111,25 +111,25 @@ public class ConfigFile {
         try {
             joinIcon = Material.valueOf((String) getDefaultValue("icons.mainMenu.joinIcon.item", "SAPLING"));
         } catch (IllegalArgumentException e) {
-            joinIcon = Material.valueOf(InventoryRollback.getVersion().isAtLeast(VersionName.v1_13_R1) ? "OAK_SAPLING" : "SAPLING");
+            joinIcon = Material.OAK_SAPLING;
         }
 
         try {
             quitIcon = Material.valueOf((String) getDefaultValue("icons.mainMenu.quitIcon.item", "BED"));
         } catch (IllegalArgumentException e) {
-            quitIcon = Material.valueOf(InventoryRollback.getVersion().isAtLeast(VersionName.v1_13_R1) ? "RED_BED" : "BED");
+            quitIcon = Material.RED_BED;
         }
 
         try {
             worldChangeIcon = Material.valueOf((String) getDefaultValue("icons.mainMenu.worldChangeIcon.item", "COMPASS"));
         } catch (IllegalArgumentException e) {
-            worldChangeIcon = Material.valueOf("COMPASS");
+            worldChangeIcon = Material.COMPASS;
         }
 
         try {
             forceSaveIcon = Material.valueOf((String) getDefaultValue("icons.mainMenu.forceSaveIcon.item", "DIAMOND"));
         } catch (IllegalArgumentException e) {
-            forceSaveIcon = Material.valueOf("DIAMOND");
+            forceSaveIcon = Material.DIAMOND;
         }
 
         timeZone = (String) getDefaultValue("icons.rollbackMenu.time.timeZone", "UTC");

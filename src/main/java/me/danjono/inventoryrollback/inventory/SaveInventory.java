@@ -127,7 +127,7 @@ public class SaveInventory {
             locSection.set("y", location.getBlockY());
             locSection.set("z", location.getBlockZ());
             timeSection.set("logType", logType.name());
-            timeSection.set("version", InventoryRollback.getPackageVersion());
+            timeSection.set("version", InventoryRollback.getGameVersion());
 
             if (deathCause != null) {
                 timeSection.set("deathReason", deathCause.name());
