@@ -95,7 +95,9 @@ public class InventoryRollback extends JavaPlugin {
         v1_20_1,
         v1_20_2,
         v1_20_3,
-        v1_20_4;
+        v1_20_4,
+        v1_20_5,
+        v1_20_6;
 
         public boolean isAtLeast(VersionName versionName) {
             return this.ordinal() >= versionName.ordinal();
@@ -106,7 +108,7 @@ public class InventoryRollback extends JavaPlugin {
         }
     }
 
-    private static VersionName VERSION = VersionName.v1_20_4;
+    private static VersionName VERSION = VersionName.v1_20_6;
 
     public static VersionName getVersion() {
         return VERSION;

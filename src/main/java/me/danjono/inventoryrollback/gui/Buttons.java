@@ -1,5 +1,6 @@
 package me.danjono.inventoryrollback.gui;
 
+import me.danjono.inventoryrollback.InventoryRollback;
 import me.danjono.inventoryrollback.config.MessageData;
 import me.danjono.inventoryrollback.data.LogType;
 import me.danjono.inventoryrollback.inventory.RestoreInventory;
@@ -16,6 +17,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BannerMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -69,11 +71,7 @@ public class Buttons {
         ItemStack button = getPageSelectorIcon();
         final BannerMeta meta = (BannerMeta) button.getItemMeta();
 
-        final List<Pattern> patterns = new ArrayList<>();
-        patterns.add(new Pattern(DyeColor.BLACK, PatternType.BASE));
-        patterns.add(new Pattern(DyeColor.WHITE, PatternType.RHOMBUS_MIDDLE));
-        patterns.add(new Pattern(DyeColor.BLACK, PatternType.HALF_VERTICAL));
-        patterns.add(new Pattern(DyeColor.GRAY, PatternType.BORDER));
+        final List<Pattern> patterns = createBannerPatterns(true);
 
         meta.setPatterns(patterns);
 
@@ -101,11 +99,7 @@ public class Buttons {
         ItemStack button = getPageSelectorIcon();
         final BannerMeta meta = (BannerMeta) button.getItemMeta();
 
-        final List<Pattern> patterns = new ArrayList<>();
-        patterns.add(new Pattern(DyeColor.BLACK, PatternType.BASE));
-        patterns.add(new Pattern(DyeColor.WHITE, PatternType.RHOMBUS_MIDDLE));
-        patterns.add(new Pattern(DyeColor.BLACK, PatternType.HALF_VERTICAL_MIRROR));
-        patterns.add(new Pattern(DyeColor.GRAY, PatternType.BORDER));
+        final List<Pattern> patterns = createBannerPatterns(false);
 
         meta.setPatterns(patterns);
 
@@ -135,11 +129,7 @@ public class Buttons {
         ItemStack button = getPageSelectorIcon();
         final BannerMeta meta = (BannerMeta) button.getItemMeta();
 
-        final List<Pattern> patterns = new ArrayList<>();
-        patterns.add(new Pattern(DyeColor.BLACK, PatternType.BASE));
-        patterns.add(new Pattern(DyeColor.WHITE, PatternType.RHOMBUS_MIDDLE));
-        patterns.add(new Pattern(DyeColor.BLACK, PatternType.HALF_VERTICAL_MIRROR));
-        patterns.add(new Pattern(DyeColor.GRAY, PatternType.BORDER));
+        final List<Pattern> patterns = createBannerPatterns(false);
 
         meta.setPatterns(patterns);
 
@@ -163,11 +153,7 @@ public class Buttons {
         ItemStack button = getPageSelectorIcon();
         final BannerMeta meta = (BannerMeta) button.getItemMeta();
 
-        final List<Pattern> patterns = new ArrayList<>();
-        patterns.add(new Pattern(DyeColor.BLACK, PatternType.BASE));
-        patterns.add(new Pattern(DyeColor.WHITE, PatternType.RHOMBUS_MIDDLE));
-        patterns.add(new Pattern(DyeColor.BLACK, PatternType.HALF_VERTICAL_MIRROR));
-        patterns.add(new Pattern(DyeColor.GRAY, PatternType.BORDER));
+        final List<Pattern> patterns = createBannerPatterns(false);
 
         meta.setPatterns(patterns);
 
@@ -368,6 +354,32 @@ public class Buttons {
         item = nbt.setItemData();
 
         return item;
+    }
+
+    private static @NotNull List<Pattern> createBannerPatterns(boolean isNext) {
+        List<Pattern> patterns = new ArrayList<>();
+
+        if (InventoryRollback.getVersion().isAtLeast(InventoryRollback.VersionName.v1_20_5)) {
+            patterns.add(new Pattern(DyeColor.BLACK, PatternType.BASE));
+            patterns.add(new Pattern(DyeColor.WHITE, PatternType.valueOf(".RHOMBUS")));
+            if (isNext) {
+                patterns.add(new Pattern(DyeColor.BLACK, PatternType.HALF_VERTICAL));
+            } else {
+                patterns.add(new Pattern(DyeColor.BLACK, PatternType.valueOf("HALF_VERTICAL_RIGHT")));
+            }
+            patterns.add(new Pattern(DyeColor.GRAY, PatternType.BORDER));
+        } else {
+            patterns.add(new Pattern(DyeColor.BLACK, PatternType.BASE));
+            patterns.add(new Pattern(DyeColor.WHITE, PatternType.valueOf("RHOMBUS_MIDDLE")));
+            if (isNext) {
+                patterns.add(new Pattern(DyeColor.BLACK, PatternType.HALF_VERTICAL));
+            } else {
+                patterns.add(new Pattern(DyeColor.BLACK, PatternType.valueOf("HALF_VERTICAL_MIRROR")));
+            }
+            patterns.add(new Pattern(DyeColor.GRAY, PatternType.BORDER));
+        }
+
+        return patterns;
     }
 
 }
