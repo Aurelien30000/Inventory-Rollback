@@ -361,7 +361,7 @@ public class Buttons {
 
         if (InventoryRollback.getVersion().isAtLeast(InventoryRollback.VersionName.v1_20_5)) {
             patterns.add(new Pattern(DyeColor.BLACK, PatternType.BASE));
-            patterns.add(new Pattern(DyeColor.WHITE, PatternType.valueOf(".RHOMBUS")));
+            patterns.add(new Pattern(DyeColor.WHITE, PatternType.valueOf("RHOMBUS")));
             if (isNext) {
                 patterns.add(new Pattern(DyeColor.BLACK, PatternType.HALF_VERTICAL));
             } else {
