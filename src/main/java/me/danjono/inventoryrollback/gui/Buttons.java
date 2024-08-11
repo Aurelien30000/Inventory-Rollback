@@ -75,7 +75,7 @@ public class Buttons {
 
         meta.setPatterns(patterns);
 
-        meta.addItemFlags(ItemFlag.HIDE_POTION_EFFECTS);
+        meta.addItemFlags(ItemFlag.HIDE_ADDITIONAL_TOOLTIP);
 
         if (displayName != null) {
             meta.setDisplayName(displayName);
@@ -103,7 +103,7 @@ public class Buttons {
 
         meta.setPatterns(patterns);
 
-        meta.addItemFlags(ItemFlag.HIDE_POTION_EFFECTS);
+        meta.addItemFlags(ItemFlag.HIDE_ADDITIONAL_TOOLTIP);
 
         if (displayName != null) {
             meta.setDisplayName(displayName);
@@ -133,7 +133,7 @@ public class Buttons {
 
         meta.setPatterns(patterns);
 
-        meta.addItemFlags(ItemFlag.HIDE_POTION_EFFECTS);
+        meta.addItemFlags(ItemFlag.HIDE_ADDITIONAL_TOOLTIP);
 
         if (displayName != null) {
             meta.setDisplayName(displayName);
@@ -157,7 +157,7 @@ public class Buttons {
 
         meta.setPatterns(patterns);
 
-        meta.addItemFlags(ItemFlag.HIDE_POTION_EFFECTS);
+        meta.addItemFlags(ItemFlag.HIDE_ADDITIONAL_TOOLTIP);
 
         if (displayName != null) {
             meta.setDisplayName(displayName);

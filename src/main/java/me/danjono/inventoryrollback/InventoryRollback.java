@@ -46,7 +46,7 @@ public class InventoryRollback extends JavaPlugin {
 
         if (!isCompatible()) {
             logger.log(Level.WARNING, ChatColor.RED + " ** WARNING... Plugin may not be compatible with this version of Minecraft. **");
-            logger.log(Level.WARNING, ChatColor.RED + " ** Tested versions: 1.17.1 to 1.20.4 **");
+            logger.log(Level.WARNING, ChatColor.RED + " ** Tested versions: 1.17.1 to 1.21.1 **");
             logger.log(Level.WARNING, ChatColor.RED + " ** Please fully test the plugin before using on your server as features may be broken. **");
         }
 
@@ -98,7 +98,8 @@ public class InventoryRollback extends JavaPlugin {
         v1_20_4,
         v1_20_5,
         v1_20_6,
-        v1_21;
+        v1_21,
+        v1_21_1;
 
         public boolean isAtLeast(VersionName versionName) {
             return this.ordinal() >= versionName.ordinal();
@@ -109,7 +110,7 @@ public class InventoryRollback extends JavaPlugin {
         }
     }
 
-    private static VersionName VERSION = VersionName.v1_21;
+    private static VersionName VERSION = VersionName.v1_21_1;
 
     public static VersionName getVersion() {
         return VERSION;
