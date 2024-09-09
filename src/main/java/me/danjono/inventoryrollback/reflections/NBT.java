@@ -209,6 +209,10 @@ public class NBT {
             throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
         Object compMap = GET_DATA_COMPONENT_MAP.invoke(nmsItem);
         Object customData = GET_DATA_COMPONENT_VALUE.invoke(compMap, CUSTOM_DATA_COMPONENT_MAP_KEY);
+        if (customData == null) {
+            return null;
+        }
+
         Object nbtComp = GET_CUSTOM_DATA_NBT_COPY.invoke(customData);
         return this.readNbtValue(key, mapType, nbtComp);
     }

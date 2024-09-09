@@ -32,7 +32,7 @@ public class ClickGUI extends Buttons implements Listener {
 
     @EventHandler
     public void onInventoryDrag(InventoryDragEvent e) {
-        //Cancel listener if the event is not for an EpicFishing GUI menu
+        // Cancel listener if the event is not for an EpicFishing GUI menu
         final String title = e.getView().getTitle();
         if (!title.equals(InventoryName.MAIN_MENU.getName())
                 && !title.equalsIgnoreCase(InventoryName.ROLLBACK_LIST.getName())
@@ -42,7 +42,7 @@ public class ClickGUI extends Buttons implements Listener {
 
         e.setCancelled(true);
 
-        //Check if inventory is a virtual one and not one that has the same name on a player chest
+        // Check if inventory is a virtual one and not one that has the same name on a player chest
         if (e.getInventory().getLocation() != null) {
             e.setCancelled(false);
             return;
@@ -67,7 +67,7 @@ public class ClickGUI extends Buttons implements Listener {
 
         e.setCancelled(true);
 
-        //Check if inventory is a virtual one and not one that has the same name on a player chest
+        // Check if inventory is a virtual one and not one that has the same name on a player chest
         if (e.getInventory().getLocation() != null) {
             e.setCancelled(false);
             return;
@@ -76,17 +76,17 @@ public class ClickGUI extends Buttons implements Listener {
         staff = (Player) e.getWhoClicked();
         icon = e.getCurrentItem();
 
-        //Listener for main menu
+        // Listener for main menu
         if (title.equals(InventoryName.MAIN_MENU.getName())) {
             mainMenu(e);
         }
 
-        //Listener for rollback list menu
+        // Listener for rollback list menu
         else if (title.equals(InventoryName.ROLLBACK_LIST.getName())) {
             rollbackMenu(e);
         }
 
-        //Listener for backup menu
+        // Listener for backup menu
         else if (title.equals(InventoryName.BACKUP.getName())) {
             backupMenu(e);
         } else {
@@ -95,7 +95,7 @@ public class ClickGUI extends Buttons implements Listener {
     }
 
     private void mainMenu(InventoryClickEvent e) {
-        //Return if a blank slot is selected
+        // Return if a blank slot is selected
         if (icon == null)
             return;
 
@@ -144,7 +144,7 @@ public class ClickGUI extends Buttons implements Listener {
             return;
         }
 
-        //Player has selected a backup to open
+        // Player has selected a backup to open
         if (icon.getType() == Material.CHEST) {
             Bukkit.getScheduler().runTaskAsynchronously(InventoryRollback.getInstance(), () -> {
                 final UUID uuid = UUID.fromString(nbt.getString("uuid"));
@@ -169,7 +169,7 @@ public class ClickGUI extends Buttons implements Listener {
             });
         }
 
-        //Player has selected a page icon
+        // Player has selected a page icon
         else if (icon.getType() == getPageSelectorIcon().getType()) {
             final int page = nbt.getInt("page");
 
@@ -226,7 +226,7 @@ public class ClickGUI extends Buttons implements Listener {
             final FileConfiguration playerData = data.getData();
             final RestoreInventory restore = new RestoreInventory(playerData, timestamp);
 
-            //Click on page selector button to go back to rollback menu
+            // Click on page selector button to go back to rollback menu
             if (icon.getType() == getPageSelectorIcon().getType()) {
                 // Already async from main, load data this thread
                 final RollbackListMenu menu = new RollbackListMenu(staff, offlinePlayer, logType, 1);
@@ -234,7 +234,7 @@ public class ClickGUI extends Buttons implements Listener {
                 Bukkit.getScheduler().runTask(InventoryRollback.getInstance(), () -> staff.openInventory(menu.showBackups()));
             }
 
-            //Clicked icon to teleport player to backup coordinates
+            // Clicked icon to teleport player to backup coordinates
             else if (iconType == getEnderPearlIcon().getType()) {
                 final String[] location = nbt.getString("location").split(",");
                 final World world = Bukkit.getWorld(location[0]);
@@ -250,7 +250,7 @@ public class ClickGUI extends Buttons implements Listener {
                         Double.parseDouble(location[1]) + 0.5, Double.parseDouble(location[2]),
                         Double.parseDouble(location[3]) + 0.5);
 
-                //Teleport player on a slight delay to block the teleport icon glitching out into the player inventory
+                // Teleport player on a slight delay to block the teleport icon glitching out into the player inventory
                 Bukkit.getScheduler().runTask(InventoryRollback.getInstance(), () -> {
                     event.getWhoClicked().closeInventory();
                     PaperLib.teleportAsync(staff, loc).thenAccept(result -> {
@@ -273,20 +273,25 @@ public class ClickGUI extends Buttons implements Listener {
                 restore.restoreEnderChest(staff, offlinePlayer);
             }
 
-            //Clicked icon to restore backup players health
+            // Clicked icon to restore backup players health
             else if (icon.getType().equals(getHealthIcon().getType())) {
                 restore.restoreHealth(staff, offlinePlayer);
             }
 
-            //Clicked icon to restore backup players hunger
+            // Clicked icon to restore backup players hunger
             else if (icon.getType().equals(getHungerIcon().getType())) {
                 restore.restoreFood(staff, offlinePlayer);
             }
 
-            //Clicked icon to restore backup players experience
+            // Clicked icon to restore backup players experience
             else if (icon.getType() == getExperienceIcon().getType()) {
                 restore.restoreExperience(staff, offlinePlayer);
             }
+        }).whenComplete((unused, throwable) -> {
+            if (throwable == null)
+                return;
+
+            throwable.printStackTrace();
         });
     }
 

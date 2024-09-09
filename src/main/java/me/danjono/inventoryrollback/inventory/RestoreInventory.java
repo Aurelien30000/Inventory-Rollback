@@ -263,7 +263,6 @@ public class RestoreInventory {
                         return;
                     }
 
-                    iOpenInv.retainPlayer(player, InventoryRollback.getInstance());
                     try {
                         inventory = iOpenInv.getSpecialInventory(player, false /* player is offline */).getBukkitInventory();
                         useOpenInv = true;
@@ -289,15 +288,15 @@ public class RestoreInventory {
                     if (SoundData.mainInventoryEnabled) {
                         player.playSound(player.getLocation(), SoundData.mainInventory, SoundData.mainInventoryVolume, 1);
                     }
+
+                    if (useOpenInv) {
+                        player.saveData();
+                        iOpenInv.unload(player);
+                    }
                 });
             } else {
                 staff.sendMessage(MessageData.pluginName + MessageData.mainInventoryNotEmpty(offlinePlayer.getName()));
                 return;
-            }
-
-            if (useOpenInv) {
-                iOpenInv.releasePlayer(player, InventoryRollback.getInstance());
-                player.saveData();
             }
 
             staff.sendMessage(MessageData.pluginName + MessageData.mainInventoryRestored(player.getName()));
@@ -328,7 +327,6 @@ public class RestoreInventory {
                         return;
                     }
 
-                    iOpenInv.retainPlayer(player, InventoryRollback.getInstance());
                     try {
                         inventory = iOpenInv.getSpecialEnderChest(player, false /* player is offline */).getBukkitInventory();
                         useOpenInv = true;
@@ -349,14 +347,15 @@ public class RestoreInventory {
                     if (SoundData.enderChestEnabled) {
                         player.playSound(player.getLocation(), SoundData.enderChest, SoundData.enderChestVolume, 1);
                     }
+
+                    if (useOpenInv) {
+                        player.saveData();
+                        iOpenInv.unload(player);
+                    }
                 });
             } else {
                 staff.sendMessage(MessageData.pluginName + MessageData.enderChestNotEmpty(offlinePlayer.getName()));
                 return;
-            }
-
-            if (useOpenInv) {
-                iOpenInv.releasePlayer(player, InventoryRollback.getInstance());
             }
 
             staff.sendMessage(MessageData.pluginName + MessageData.enderChestRestored(player.getName()));
